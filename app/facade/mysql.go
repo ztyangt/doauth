@@ -2,6 +2,7 @@ package facade
 
 import (
 	"fmt"
+	"github.com/gin-gonic/gin"
 	"github.com/spf13/cast"
 	"github.com/unti-io/go-utils/utils"
 	"gorm.io/driver/mysql"
@@ -22,7 +23,7 @@ type MySqlStruct struct {
 }
 
 // InitMySQL - 初始化 MySQL 数据库
-func InitMySQL() {
+func InitMySQL(ctx ...*gin.Context) {
 
 	hostname := cast.ToString(DBToml.Get("mysql.hostname", "localhost"))
 	hostport := cast.ToString(DBToml.Get("mysql.hostport", "3306"))

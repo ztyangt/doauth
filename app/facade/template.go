@@ -36,7 +36,7 @@ password     = "${mysql.password}"
 # 数据库编码
 charset      = "${mysql.charset}"
 # 表前缀
-prefix       = "zty_"
+prefix       = "${mysql.prefix}"
 # 自动迁移模式
 migrate 	 = ${mysql.migrate}
 `

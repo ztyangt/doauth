@@ -8,7 +8,6 @@ import (
 	"gorm.io/gorm"
 	"gorm.io/plugin/soft_delete"
 	regexp2 "regexp"
-	"time"
 )
 
 type Users struct {
@@ -39,17 +38,26 @@ func InitUsers() {
 		facade.Log.Error(map[string]any{"error": err}, "Users表迁移失败")
 		return
 	}
+}
 
-	//初始化管理员密码
-	password := utils.Password.Create("123456")
-	// 创建管理员
-	admin := Users{Account: "admin", Password: password, Nickname: "管理员", Level: 1, CreateTime: time.Now().Unix(), UpdateTime: time.Now().Unix()}
-
-	tx := facade.DB.Model(&admin).Create(&admin)
-	if tx.Error != nil {
-		facade.Log.Error(map[string]any{"error": err}, tx.Error.Error())
-		return
+func (this *Users) BeforeSave(tx *gorm.DB) (err error) {
+	// 账号 唯一处理
+	if !utils.Is.Empty(this.Account) {
+		exist := facade.DB.Model(&Users{}).Where("id", "!=", this.Id).Where("account", this.Account).Exist()
+		if exist {
+			return errors.New("账号已存在！")
+		}
 	}
+
+	// 邮箱 唯一处理
+	if !utils.Is.Empty(this.Email) {
+		exist := facade.DB.Model(&Users{}).Where("id", "!=", this.Id).Where("email", this.Email).Exist()
+		if exist {
+			return errors.New("邮箱已存在！")
+		}
+	}
+
+	return
 }
 
 // AfterFind - 查询后的钩子
@@ -99,22 +107,6 @@ func (this *Users) AfterSave(tx *gorm.DB) (err error) {
 		this.Avatar = utils.Replace(this.Avatar, DomainTemp2())
 		tx.Model(this).UpdateColumn("avatar", this.Avatar)
 	}()
-
-	// 账号 唯一处理
-	if !utils.Is.Empty(this.Account) {
-		exist := facade.DB.Model(&Users{}).Where("id", "!=", this.Id).Where("account", this.Account).Exist()
-		if exist {
-			return errors.New("账号已存在！")
-		}
-	}
-
-	// 邮箱 唯一处理
-	if !utils.Is.Empty(this.Email) {
-		exist := facade.DB.Model(&Users{}).Where("id", "!=", this.Id).Where("email", this.Email).Exist()
-		if exist {
-			return errors.New("邮箱已存在！")
-		}
-	}
 
 	return
 }

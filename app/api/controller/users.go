@@ -44,8 +44,7 @@ func (this *Users) IPOST(ctx *gin.Context) {
 	method := strings.ToLower(ctx.Param("method"))
 
 	allow := map[string]any{
-		"save":   this.save,
-		"create": this.create,
+		"register": this.register,
 	}
 	err := this.call(allow, method, ctx)
 
@@ -232,24 +231,19 @@ func (this *Users) all(ctx *gin.Context) {
 	}, facade.Lang(ctx, strings.Join(msg, "")), code)
 }
 
-// save 保存数据 - 包含创建和更新
-func (this *Users) save(ctx *gin.Context) {
+// 注册数据
+func (this *Users) register(ctx *gin.Context) {
 
-	// 获取请求参数
-	params := this.params(ctx)
-
-	if utils.Is.Empty(params["id"]) {
-		this.create(ctx)
-	} else {
-		this.update(ctx)
+	if !cast.ToBool(this.signInConfig()["value"]) {
+		this.json(ctx, nil, "管理员关闭了注册功能！", 403)
+		return
 	}
-}
 
-// create 创建数据
-func (this *Users) create(ctx *gin.Context) {
+	// 表数据结构体
+	table := model.Users{}
+	// 请求参数
+	params := this.params(ctx, map[string]any{})
 
-	// 获取请求参数
-	params := this.params(ctx)
 	// 验证器
 	err := validator.NewValid("users", params)
 
@@ -259,15 +253,63 @@ func (this *Users) create(ctx *gin.Context) {
 		return
 	}
 
-	// 表数据结构体
-	table := model.Users{CreateTime: time.Now().Unix(), UpdateTime: time.Now().Unix()}
-	allow := []any{"account", "password", "nickname", "email", "phone", "avatar", "description", "source", "pages", "remark", "title", "json", "text"}
-
-	if utils.Is.Empty(params["email"]) {
-		this.json(ctx, nil, facade.Lang(ctx, "邮箱不能为空！"), 400)
+	if utils.Is.Empty("email") {
+		this.json(ctx, nil, facade.Lang(ctx, "%s 格式不正确！", "email"), 400)
 		return
 	}
 
+	// 判断是否已经注册
+	ok := facade.DB.Model(&table).Where([]any{
+		[]any{"email", "=", params["email"]},
+	}).Exist()
+	// 已注册
+	if ok {
+		this.json(ctx, nil, facade.Lang(ctx, "该邮箱已经注册！"), 400)
+		return
+	}
+
+	if !utils.Is.Empty(params["account"]) {
+		// 判断账号是否已经注册
+		ok := facade.DB.Model(&table).Where([]any{
+			[]any{"account", "=", params["account"]},
+		}).Exist()
+		if ok {
+			this.json(ctx, nil, facade.Lang(ctx, "该帐号已经注册！"), 400)
+			return
+		}
+	}
+
+	cacheName := fmt.Sprintf("%v-%v", "email", params["email"])
+
+	// 验证码为空 - 发送验证码
+	if utils.Is.Empty(params["code"]) {
+
+		sms := facade.NewSMS("email").VerifyCode(params["email"])
+		if sms.Error != nil {
+			this.json(ctx, nil, sms.Error.Error(), 400)
+			return
+		}
+		// 缓存验证码 - 5分钟
+		facade.Cache.Set(cacheName, sms.VerifyCode, 5*time.Minute)
+		this.json(ctx, nil, facade.Lang(ctx, "验证码发送成功！"), 201)
+		return
+	}
+
+	if utils.Is.Empty(params["password"]) {
+		this.json(ctx, nil, facade.Lang(ctx, "%s 不能为空！", "密码"), 400)
+		return
+	}
+
+	// 获取缓存里面的验证码
+	cacheCode := facade.Cache.Get(cacheName)
+
+	if cast.ToString(params["code"]) != cacheCode {
+		this.json(ctx, nil, facade.Lang(ctx, "验证码错误！"), 400)
+		return
+	}
+
+	// 允许存储的字段
+	allow := []any{"account", "password", "email", "nickname", "avatar", "description"}
 	// 动态给结构体赋值
 	for key, val := range params {
 		// 加密密码
@@ -279,16 +321,38 @@ func (this *Users) create(ctx *gin.Context) {
 			utils.Struct.Set(&table, key, val)
 		}
 	}
+	//utils.Struct.Set(&table, "email", params["email"])
+
+	// 设置登录时间
+	utils.Struct.Set(&table, "login_time", time.Now().Unix())
 
 	// 创建用户
 	tx := facade.DB.Model(&table).Create(&table)
-
 	if tx.Error != nil {
 		this.json(ctx, nil, tx.Error.Error(), 400)
 		return
 	}
 
-	this.json(ctx, gin.H{"id": table.Id}, facade.Lang(ctx, "创建成功！"), 200)
+	// 删除验证码
+	facade.Cache.Del(cacheName)
+
+	jwt := facade.Jwt().Create(facade.H{
+		"uid":  table.Id,
+		"hash": facade.Hash.Sum32(table.Password),
+	})
+
+	// 删除密码
+	table.Password = ""
+
+	result := map[string]any{
+		"user":  table,
+		"token": jwt.Text,
+	}
+
+	// 往客户端写入cookie - 存储登录token
+	setToken(ctx, jwt.Text)
+
+	this.json(ctx, result, facade.Lang(ctx, "注册成功！"), 200)
 }
 
 // update 更新数据
@@ -542,4 +606,11 @@ func (this *Users) restore(ctx *gin.Context) {
 	}
 
 	this.json(ctx, gin.H{"ids": ids}, facade.Lang(ctx, "恢复成功！"), 200)
+}
+
+// 获取注册配置
+func (this *Users) signInConfig() (result map[string]any) {
+	return map[string]any{
+		"value": 1,
+	}
 }

@@ -13,7 +13,6 @@ import (
 // Jwt - JWT 中间件
 func Jwt() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-
 		tokenName := cast.ToString(facade.AppToml.Get("app.token_name", "UNTI_LOGIN_TOKEN"))
 
 		var token string

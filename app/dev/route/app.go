@@ -16,7 +16,8 @@ func Route(Gin *gin.Engine) {
 
 	// 动态配置路由 - 允许动态挂载的路由
 	for key, item := range map[string]controller.ApiInterface{
-		"info": &controller.Info{},
+		"info":    &controller.Info{},
+		"install": &controller.Install{},
 	} {
 		install.Any(key, item.INDEX)
 		install.GET(fmt.Sprintf("%s/:method", key), item.IGET)

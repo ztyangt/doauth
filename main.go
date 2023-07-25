@@ -2,6 +2,7 @@ package main
 
 import (
 	api "doauth/app/api/route"
+	dev "doauth/app/dev/route"
 	index "doauth/app/index/route"
 	"doauth/app/middleware"
 	socket "doauth/app/socket/route"
@@ -25,9 +26,9 @@ func main() {
 
 func run() {
 	// 允许跨域
-	app.Gin.Use(middleware.Cors())
+	app.Gin.Use(middleware.Cors(), middleware.Install())
 	// 注册路由
-	app.Use(api.Route, index.Route, socket.Route)
+	app.Use(api.Route, dev.Route, index.Route, socket.Route)
 	// 运行服务
 	app.Run()
 }

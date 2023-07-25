@@ -62,5 +62,7 @@
     "分享成功！": "Share success!",
     "管理员关闭了注册功能！": "The admdoauthtrator has closed the registration function!",
     "请联系管理员为您手动开通账号！": "Please contact the admdoauthtrator to open the account for you manually!",
-    "%s 和 %s 必须有一个不能为空！": "%s and %s must not be empty!"
+    "%s 和 %s 必须有一个不能为空！": "%s and %s must not be empty!",
+    "程序已安装，禁止访问！":  "The program has been installed, access is prohibited!",
+    "程序未安装！":  "The program is installed!"
 }

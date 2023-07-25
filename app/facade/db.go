@@ -54,8 +54,8 @@ type ModelStruct struct {
 	page              any      // 分页
 	softDelete        string   // 软删除 - 字段
 	defaultSoftDelete any      // 默认软删除 - 值
-	field 		      []string // 查询字段范围
-	withoutField	  []string // 排除查询字段
+	field             []string // 查询字段范围
+	withoutField      []string // 排除查询字段
 }
 
 type ModelInterface interface {
@@ -151,7 +151,7 @@ func WatchDB(change ...bool) {
 	}
 
 	// 初始化配置文件
-	initDBToml()
+	InitDBToml()
 	// 初始化数据库
 	InitDB()
 
@@ -168,21 +168,22 @@ func WatchDB(change ...bool) {
 // DBToml - 数据库配置文件
 var DBToml *utils.ViperResponse
 
-// initDBToml - 初始化数据库配置文件
-func initDBToml() {
+// InitDBToml - 初始化数据库配置文件
+func InitDBToml(databaseConfig ...map[string]any) {
+
+	var config map[string]any
+
+	if utils.Is.Empty(databaseConfig) {
+		config = map[string]any{}
+	} else {
+		config = databaseConfig[0]
+	}
+
 	item := utils.Viper(utils.ViperModel{
-		Path: "config",
-		Mode: "toml",
-		Name: "database",
-		Content: utils.Replace(TempDatabase, map[string]any{
-			"${mysql.hostname}": "localhost",
-			"${mysql.hostport}": 3306,
-			"${mysql.username}": "",
-			"${mysql.database}": "",
-			"${mysql.password}": "",
-			"${mysql.charset}" : "utf8mb4",
-			"${mysql.migrate}" : "true",
-		}),
+		Path:    "config",
+		Mode:    "toml",
+		Name:    "database",
+		Content: utils.Replace(TempDatabase, config),
 	}).Read()
 
 	if item.Error != nil {
