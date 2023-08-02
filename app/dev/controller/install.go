@@ -27,7 +27,9 @@ func (this *Install) IGET(ctx *gin.Context) {
 	method := strings.ToLower(ctx.Param("method"))
 
 	allow := map[string]any{
-		"check": this.check,
+		"check":    this.check,
+		"rmconfig": this.rmconfig,
+		"lock":     this.lock,
 	}
 	err := this.call(allow, method, ctx)
 
@@ -131,9 +133,7 @@ func (this *Install) connectDB(ctx *gin.Context) {
 		SkipInitializeWithVersion: false,
 	}), &gorm.Config{
 		NamingStrategy: schema.NamingStrategy{
-			// 表名前缀，`User` 的表名应该是 `t_users`
-			TablePrefix: cast.ToString(params["prefix"]) + "_",
-			// 使用单数表名，启用该选项，此时，`User` 的表名应该是 `t_user`
+			TablePrefix:   cast.ToString(params["prefix"]) + "_",
 			SingularTable: true,
 		},
 		// 关闭终端显示查询信息
@@ -240,6 +240,17 @@ func (this *Install) createAdmin(ctx *gin.Context) {
 	}
 
 	this.json(ctx, nil, facade.Lang(ctx, "注册成功！"), 200)
+}
+
+// 清空数据库配置
+func (this *Install) rmconfig(ctx *gin.Context) {
+
+	if utils.File().Exist("./config/database.toml") {
+		utils.File().Remove("./config/database.toml")
+		this.json(ctx, nil, facade.Lang(ctx, "清除数据库配置成功！"), 200)
+	} else {
+		this.json(ctx, nil, facade.Lang(ctx, "据库配置不存在！"), 200)
+	}
 }
 
 // 上锁

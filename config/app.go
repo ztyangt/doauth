@@ -281,14 +281,14 @@ func notRoute(Gin *gin.Engine) {
 // console 控制台
 func console() {
 	port := AppToml.Get("app.port", 8080)
-	char := "\n" +
+	char := "\n\n" +
 		"		    ██████╗  ██████╗  █████╗ ██╗   ██╗████████╗██╗  ██╗\n" +
 		"		    ██╔══██╗██╔═══██╗██╔══██╗██║   ██║╚══██╔══╝██║  ██║\n" +
 		"		    ██║  ██║██║   ██║███████║██║   ██║   ██║   ███████║\n" +
 		"		    ██║  ██║██║   ██║██╔══██║██║   ██║   ██║   ██╔══██║\n" +
 		"		    ██████╔╝╚██████╔╝██║  ██║╚██████╔╝   ██║   ██║  ██║\n" +
 		"		    ╚═════╝  ╚═════╝ ╚═╝  ╚═╝ ╚═════╝    ╚═╝   ╚═╝  ╚═╝\n" +
-		"                                  版本号：%s  端口：%d\n" +
-		"                                      域名授权系统已启动\n"
-	fmt.Println(fmt.Sprintf(char, facade.Version, port))
+		"                                     域名授权系统已启动\n" +
+		"                            版本号：%s  端口：%d  作者：%s\n"
+	fmt.Println(fmt.Sprintf(char, facade.Version, port, facade.Authour))
 }
