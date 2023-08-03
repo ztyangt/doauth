@@ -5,13 +5,28 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0fc1e874-fc7c-47e4-9217-eddcac8ca1c2" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/install.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/dev/controller/install.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/dev/controller/install.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/facade/const.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/facade/const.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/validator/admin.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/validator/admin.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/validator/install.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/validator/install.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/app.go" beforeDir="false" afterPath="$PROJECT_DIR$/config/app.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/api/controller/base.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/controller/base.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/api/controller/comm.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/controller/comm.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/api/controller/test.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/controller/test.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/api/controller/users.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/controller/users.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/api/middleware/jwt.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/middleware/jwt.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/api/route/app.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/route/app.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/facade/cache.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/facade/cache.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/facade/crypt.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/facade/crypt.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/facade/pay.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/facade/storage.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/facade/storage.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/facade/template.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/facade/template.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/facade/toml.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/facade/toml.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/index/controller/index.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/index/controller/index.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/middleware/params.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/middleware/params.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/model/base.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/model/base.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/model/users.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/model/users.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/app.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/app.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/favicon.ico" beforeDir="false" afterPath="$PROJECT_DIR$/public/favicon.ico" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,6 +68,9 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
   <component name="ProjectId" id="2SzvQJiCQHCPn8HkFm7qhdmlDAW" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -89,7 +107,20 @@
     ]
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="G:\code\Golang\doauth\app" />
+    </key>
+  </component>
   <component name="RunManager">
+    <configuration default="true" type="GoApplicationRunConfiguration" factoryName="Go Application">
+      <module name="doauth" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="FILE" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <method v="2" />
+    </configuration>
     <configuration name="go build doauth main.go" type="GoApplicationRunConfiguration" factoryName="Go Application" nameIsGenerated="true">
       <module name="doauth" />
       <working_directory value="$PROJECT_DIR$" />
@@ -97,6 +128,15 @@
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$/../doauth|$PROJECT_DIR$/main.go" />
       <output_directory value="$PROJECT_DIR$/dist" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="GoTestRunConfiguration" factoryName="Go Test">
+      <module name="doauth" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="DIRECTORY" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
       <method v="2" />
     </configuration>
   </component>

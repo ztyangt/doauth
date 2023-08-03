@@ -2,7 +2,6 @@ package middleware
 
 import (
 	"bytes"
-	"doauth/app/facade"
 	"errors"
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/cast"
@@ -183,9 +182,6 @@ func domain(ctx *gin.Context) (result string) {
 
 	// 存储到缓存中
 	go func() {
-		if cast.ToBool(facade.CacheToml.Get("open")) {
-			facade.Cache.Set("domain", result, 0)
-		}
 		// 存储到上下文中
 		ctx.Set("domain", result)
 	}()

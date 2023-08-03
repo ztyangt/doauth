@@ -3,11 +3,9 @@ package middleware
 import (
 	"doauth/app/facade"
 	"doauth/app/model"
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/cast"
 	"github.com/unti-io/go-utils/utils"
-	"time"
 )
 
 // Jwt - JWT 中间件
@@ -39,22 +37,7 @@ func Jwt() gin.HandlerFunc {
 			return
 		}
 
-		var user map[string]any
-		cacheName := fmt.Sprintf("user[%v]", jwt.Data["uid"])
-		cacheState := cast.ToBool(facade.CacheToml.Get("open"))
-
-		// 如果开启了缓存 - 且缓存存在 - 直接从缓存中获取
-		if cacheState && facade.Cache.Has(cacheName) {
-
-			user = cast.ToStringMap(facade.Cache.Get(cacheName))
-
-		} else {
-
-			user = facade.DB.Model(&model.Users{}).Find(jwt.Data["uid"])
-			if cacheState {
-				go facade.Cache.Set(cacheName, user, time.Duration(jwt.Valid)*time.Second)
-			}
-		}
+		user := facade.DB.Model(&model.Users{}).Find(jwt.Data["uid"])
 
 		// 密码发生变化 - 强制退出
 		if jwt.Data["hash"] != facade.Hash.Sum32(user["password"]) {

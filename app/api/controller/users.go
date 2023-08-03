@@ -44,7 +44,7 @@ func (this *Users) IPOST(ctx *gin.Context) {
 	method := strings.ToLower(ctx.Param("method"))
 
 	allow := map[string]any{
-		"register": this.register,
+		//"register": this.register,
 	}
 	err := this.call(allow, method, ctx)
 
@@ -131,30 +131,14 @@ func (this *Users) one(ctx *gin.Context) {
 		}
 	}
 
-	cacheName := this.cache.name(ctx)
-	// 开启了缓存 并且 缓存中有数据
-	if this.cache.enable(ctx) && facade.Cache.Has(cacheName) {
+	mold := facade.DB.Model(&table)
+	mold.IWhere(params["where"]).IOr(params["or"]).ILike(params["like"]).INot(params["not"]).INull(params["null"]).INotNull(params["notNull"])
 
-		// 从缓存中获取数据
-		msg[1] = "（来自缓存）"
-		data = facade.Cache.Get(cacheName)
+	mold.WithoutField("password")
 
-	} else {
+	item := mold.Where(table).Find()
 
-		mold := facade.DB.Model(&table)
-		mold.IWhere(params["where"]).IOr(params["or"]).ILike(params["like"]).INot(params["not"]).INull(params["null"]).INotNull(params["notNull"])
-
-		mold.WithoutField("password")
-
-		item := mold.Where(table).Find()
-
-		// 缓存数据
-		if this.cache.enable(ctx) {
-			go facade.Cache.Set(cacheName, item)
-		}
-
-		data = item
-	}
+	data = item
 
 	if !utils.Is.Empty(data) {
 		code = 200
@@ -196,28 +180,12 @@ func (this *Users) all(ctx *gin.Context) {
 	mold.IWhere(params["where"]).IOr(params["or"]).ILike(params["like"]).INot(params["not"]).INull(params["null"]).INotNull(params["notNull"])
 	count := mold.Where(table).Count()
 
-	cacheName := this.cache.name(ctx)
-	// 开启了缓存 并且 缓存中有数据
-	if this.cache.enable(ctx) && facade.Cache.Has(cacheName) {
+	mold.WithoutField("password")
 
-		// 从缓存中获取数据
-		msg[1] = "（来自缓存）"
-		data = facade.Cache.Get(cacheName)
+	// 从数据库中获取数据
+	item := mold.Where(table).Limit(limit).Page(page).Order(params["order"]).Select()
 
-	} else {
-
-		mold.WithoutField("password")
-
-		// 从数据库中获取数据
-		item := mold.Where(table).Limit(limit).Page(page).Order(params["order"]).Select()
-
-		// 缓存数据
-		if this.cache.enable(ctx) {
-			go facade.Cache.Set(cacheName, item)
-		}
-
-		data = item
-	}
+	data = item
 
 	if !utils.Is.Empty(data) {
 		code = 200

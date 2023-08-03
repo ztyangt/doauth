@@ -90,9 +90,6 @@ func (this *Users) AfterFind(tx *gorm.DB) (err error) {
 		}
 	}
 
-	// 替换 url 中的域名
-	this.Avatar = utils.Replace(this.Avatar, DomainTemp1())
-
 	this.Result = map[string]any{}
 	this.Text = cast.ToString(this.Text)
 	this.Json = utils.Json.Decode(this.Json)
@@ -104,7 +101,6 @@ func (this *Users) AfterFind(tx *gorm.DB) (err error) {
 func (this *Users) AfterSave(tx *gorm.DB) (err error) {
 
 	go func() {
-		this.Avatar = utils.Replace(this.Avatar, DomainTemp2())
 		tx.Model(this).UpdateColumn("avatar", this.Avatar)
 	}()
 

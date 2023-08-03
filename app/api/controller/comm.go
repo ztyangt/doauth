@@ -39,9 +39,9 @@ func (this *Comm) IPOST(ctx *gin.Context) {
 	method := strings.ToLower(ctx.Param("method"))
 
 	allow := map[string]any{
-		"login":         this.login,
-		"register":      this.register,
-		"social-login":  this.socialLogin,
+		"login": this.login,
+		//"register":      this.register,
+		//"social-login":  this.socialLogin,
 		"check-token":   this.checkToken,
 		"reset-passowd": this.resetPassword,
 	}
@@ -94,12 +94,10 @@ func (this *Comm) login(ctx *gin.Context) {
 	// 表数据结构体
 	table := model.Users{}
 	// 请求参数
-	params := this.params(ctx, map[string]any{
-		"source": "default",
-	})
+	params := this.params(ctx)
 
 	if utils.Is.Empty(params["account"]) {
-		this.json(ctx, nil, facade.Lang(ctx, "请提交帐号（或邮箱和手机号）！"), 400)
+		this.json(ctx, nil, facade.Lang(ctx, "请提交邮箱或账号！"), 400)
 		return
 	}
 
@@ -131,9 +129,8 @@ func (this *Comm) login(ctx *gin.Context) {
 	// 查询用户是否存在
 	item := facade.DB.Model(&table).Or([]any{
 		[]any{"email", "=", params["account"]},
-		[]any{"phone", "=", params["account"]},
 		[]any{"account", "=", params["account"]},
-	}).Where("source", params["source"]).Find()
+	}).Find()
 
 	if utils.Is.Empty(item) {
 		this.json(ctx, nil, facade.Lang(ctx, "账户不存在！"), 400)

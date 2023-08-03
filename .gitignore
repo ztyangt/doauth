@@ -2,5 +2,5 @@ runtime
 tmp
 dist
 
-douath.*
 *.toml
+*.exe

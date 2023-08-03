@@ -24,7 +24,7 @@ var CryptToml *utils.ViperResponse
 func initCryptToml() {
 
 	key := fmt.Sprintf("%v-%v", uuid.New().String(), time.Now().Unix())
-	secret := fmt.Sprintf("Unti-%x", md5.Sum([]byte(key)))
+	secret := fmt.Sprintf("DoAuth-%x", md5.Sum([]byte(key)))
 
 	item := utils.Viper(utils.ViperModel{
 		Path: "config",
@@ -34,7 +34,7 @@ func initCryptToml() {
 			"${jwt.key}":     secret,
 			"${jwt.expire}":  "7 * 24 * 60 * 60",
 			"${jwt.issuer}":  "ztyang",
-			"${jwt.subject}": "Unti",
+			"${jwt.subject}": "DoAuth",
 		}),
 	}).Read()
 
@@ -109,17 +109,17 @@ func Jwt(request ...JwtRequest) *JwtStruct {
 
 	// 颁发者签名
 	if utils.Is.Empty(request[0].Issuer) {
-		request[0].Issuer = cast.ToString(CryptToml.Get("jwt.issuer", "unti.io"))
+		request[0].Issuer = cast.ToString(CryptToml.Get("jwt.issuer", "ztyang"))
 	}
 
 	// 主题
 	if utils.Is.Empty(request[0].Subject) {
-		request[0].Subject = cast.ToString(CryptToml.Get("jwt.subject", "Unti"))
+		request[0].Subject = cast.ToString(CryptToml.Get("jwt.subject", "DoAuth"))
 	}
 
 	// 密钥
 	if utils.Is.Empty(request[0].Key) {
-		request[0].Key = cast.ToString(CryptToml.Get("jwt.key", "Unti"))
+		request[0].Key = cast.ToString(CryptToml.Get("jwt.key", "DoAuth"))
 	}
 
 	return &JwtStruct{

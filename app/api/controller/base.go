@@ -1,22 +1,17 @@
 package controller
 
 import (
-	"doauth/app/facade"
 	"doauth/app/model"
 	"errors"
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/cast"
 	"github.com/unti-io/go-utils/utils"
 	"net/http"
 	"reflect"
-	"sort"
-	"strings"
 )
 
 type base struct {
 	meta
-	cache
 }
 
 type ApiInterface interface {
@@ -138,45 +133,6 @@ func (this base) get(ctx *gin.Context, key any, def ...any) (value any) {
 
 type cache struct{}
 
-// API请求结果是否优先从缓存中获取
-func (this cache) enable(ctx *gin.Context) (ok bool) {
-	item := cast.ToBool(base{}.param(ctx, "cache", "true"))
-	where := item && cast.ToBool(facade.CacheToml.Get("open"))
-	return utils.Ternary[bool](where, true, false)
-}
-
-// 缓存名称
-func (this cache) name(ctx *gin.Context) (name string) {
-
-	params, _ := ctx.Get("params")
-
-	body := cast.ToStringMap(params)
-
-	// ========== 此处解决 map 无序问题 - 开始 ==========
-	keys := make([]string, 0, len(body))
-	for key := range body {
-		keys = append(keys, key)
-	}
-	// 排序 keys
-	sort.Strings(keys)
-	// ========== 此处解决 map 无序问题 - 开始 ==========
-
-	var buff strings.Builder
-	for _, key := range keys {
-		buff.WriteString(fmt.Sprintf("%v=%v&", key, body[key]))
-	}
-	name = buff.String()
-	// 去掉最后一个 &
-	if !utils.Is.Empty(name) {
-		name = name[:len(name)-1]
-	}
-
-	// 生产缓存名称 - 禁止包含（兼容 Windows）：\/:*?"<>|
-	path := strings.Replace(ctx.Request.URL.Path, "/", "_", -1)
-	name = fmt.Sprintf("[%s]%s&hash=%s", ctx.Request.Method, path, facade.Hash.Sum32(name))
-	return
-}
-
 // ============================== 上下文挂载的 meta 信息 ==============================
 
 type meta struct{}
@@ -210,26 +166,9 @@ func (this meta) limit(ctx *gin.Context) (result int) {
 	// 配置信息
 	var config map[string]any
 
-	// 缓存名称
-	cacheName := "config[SYSTEM_PAGE_LIMIT]"
-	// 是否开启了缓存
-	cacheState := cast.ToBool(facade.CacheToml.Get("open"))
-
-	// 检查缓存是否存在
-	if cacheState && facade.Cache.Has(cacheName) {
-
-		config = cast.ToStringMap(facade.Cache.Get(cacheName))
-
-	} else {
-
-		config = map[string]any{
-			"value": 0,
-			"text":  30,
-		}
-		// 存储到缓存中
-		if cacheState {
-			go facade.Cache.Set(cacheName, config)
-		}
+	config = map[string]any{
+		"value": 0,
+		"text":  30,
 	}
 
 	// 最大限制

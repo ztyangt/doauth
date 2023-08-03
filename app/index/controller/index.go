@@ -15,4 +15,5 @@ func Index(ctx *gin.Context) {
 			"TEST": "这是服务端设置的数据",
 		}),
 	})
+
 }

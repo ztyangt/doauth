@@ -12,8 +12,6 @@ import (
 	"github.com/tencentyun/cos-go-sdk-v5"
 	"github.com/unti-io/go-utils/utils"
 	"io"
-	"net/http"
-	"net/url"
 	"strings"
 	"sync"
 	"time"
@@ -38,11 +36,11 @@ const (
 	// StorageModeLocal - 本地存储
 	StorageModeLocal = "local"
 	// StorageModeOSS - OSS存储
-	StorageModeOSS   = "oss"
+	StorageModeOSS = "oss"
 	// StorageModeCOS - COS存储
-	StorageModeCOS   = "cos"
+	StorageModeCOS = "cos"
 	// StorageModeKODO - KODO存储
-	StorageModeKODO  = "kodo"
+	StorageModeKODO = "kodo"
 )
 
 // NewStorage - 创建Storage实例
@@ -79,24 +77,24 @@ func initStorageToml() {
 		Mode: "toml",
 		Name: "storage",
 		Content: utils.Replace(TempStorage, map[string]any{
-			"${default}": "local",
-			"${local.domain}": "",
-			"${oss.access_key_id}": "",
+			"${default}":               "local",
+			"${local.domain}":          "",
+			"${oss.access_key_id}":     "",
 			"${oss.access_key_secret}": "",
-			"${oss.endpoint}": "",
-			"${oss.bucket}": "unti-oss",
-			"${oss.domain}": "",
-			"${cos.app_id}": "",
-			"${cos.secret_id}": "",
-			"${cos.secret_key}": "",
-			"${cos.bucket}": "unti-cos",
-			"${cos.region}": "ap-guangzhou",
-			"${cos.domain}": "",
-			"${kodo.access_key}": "",
-			"${kodo.secret_key}": "",
-			"${kodo.bucket}": "unti-kodo",
-			"${kodo.region}": "z2",
-			"${kodo.domain}": "",
+			"${oss.endpoint}":          "",
+			"${oss.bucket}":            "unti-oss",
+			"${oss.domain}":            "",
+			"${cos.app_id}":            "",
+			"${cos.secret_id}":         "",
+			"${cos.secret_key}":        "",
+			"${cos.bucket}":            "unti-cos",
+			"${cos.region}":            "ap-guangzhou",
+			"${cos.domain}":            "",
+			"${kodo.access_key}":       "",
+			"${kodo.secret_key}":       "",
+			"${kodo.bucket}":           "unti-kodo",
+			"${kodo.region}":           "z2",
+			"${kodo.domain}":           "",
 		}),
 	}).Read()
 
@@ -116,67 +114,67 @@ func initStorageToml() {
 // 初始化缓存
 func initStorage() {
 
-	accessKeyId := cast.ToString(StorageToml.Get("oss.access_key_id"))
-	accessKeySecret := cast.ToString(StorageToml.Get("oss.access_key_secret"))
-	endpoint := cast.ToString(StorageToml.Get("oss.endpoint"))
-
-	ossClient, err := oss.New(endpoint, accessKeyId, accessKeySecret)
-
-	if err != nil {
-		Log.Error(map[string]any{
-			"error":     err,
-			"func_name": utils.Caller().FuncName,
-			"file_name": utils.Caller().FileName,
-			"file_line": utils.Caller().Line,
-		}, "OSS 初始化错误")
-	}
-
-	appId := cast.ToString(StorageToml.Get("cos.app_id"))
-	secretId := cast.ToString(StorageToml.Get("cos.secret_id"))
-	secretKey := cast.ToString(StorageToml.Get("cos.secret_key"))
-	bucket := cast.ToString(StorageToml.Get("cos.bucket"))
-	region := cast.ToString(StorageToml.Get("cos.region"))
-
-	cosUrl, err := url.Parse(fmt.Sprintf("https://%s-%s.cos.%s.myqcloud.com", bucket, appId, region))
-	if err != nil {
-		Log.Error(map[string]any{
-			"error":     err,
-			"func_name": utils.Caller().FuncName,
-			"file_name": utils.Caller().FileName,
-			"file_line": utils.Caller().Line,
-		}, "COS URL 解析错误")
-	}
-
-	cosClient := cos.NewClient(&cos.BaseURL{
-		BucketURL: cosUrl,
-	}, &http.Client{
-		// 设置超时时间
-		Timeout: 100 * time.Second,
-		Transport: &cos.AuthorizationTransport{
-			SecretID:  secretId,
-			SecretKey: secretKey,
-		},
-	})
-
-	// OSS 对象存储
-	OSS = &OSSStruct{
-		Client: ossClient,
-	}
-
-	// COS 对象存储
-	COS = &COSStruct{
-		Client: cosClient,
-	}
-	// 初始化COS Bucket
-	COS.Object()
-
-	// KODO 对象存储
-	KODO = &KODOStruct{
-		Client: qbox.NewMac(
-			cast.ToString(StorageToml.Get("kodo.access_key")),
-			cast.ToString(StorageToml.Get("kodo.secret_key")),
-		),
-	}
+	//accessKeyId := cast.ToString(StorageToml.Get("oss.access_key_id"))
+	//accessKeySecret := cast.ToString(StorageToml.Get("oss.access_key_secret"))
+	//endpoint := cast.ToString(StorageToml.Get("oss.endpoint"))
+	//
+	//ossClient, err := oss.New(endpoint, accessKeyId, accessKeySecret)
+	//
+	//if err != nil {
+	//	Log.Error(map[string]any{
+	//		"error":     err,
+	//		"func_name": utils.Caller().FuncName,
+	//		"file_name": utils.Caller().FileName,
+	//		"file_line": utils.Caller().Line,
+	//	}, "OSS 初始化错误")
+	//}
+	//
+	//appId := cast.ToString(StorageToml.Get("cos.app_id"))
+	//secretId := cast.ToString(StorageToml.Get("cos.secret_id"))
+	//secretKey := cast.ToString(StorageToml.Get("cos.secret_key"))
+	//bucket := cast.ToString(StorageToml.Get("cos.bucket"))
+	//region := cast.ToString(StorageToml.Get("cos.region"))
+	//
+	//cosUrl, err := url.Parse(fmt.Sprintf("https://%s-%s.cos.%s.myqcloud.com", bucket, appId, region))
+	//if err != nil {
+	//	Log.Error(map[string]any{
+	//		"error":     err,
+	//		"func_name": utils.Caller().FuncName,
+	//		"file_name": utils.Caller().FileName,
+	//		"file_line": utils.Caller().Line,
+	//	}, "COS URL 解析错误")
+	//}
+	//
+	//cosClient := cos.NewClient(&cos.BaseURL{
+	//	BucketURL: cosUrl,
+	//}, &http.Client{
+	//	// 设置超时时间
+	//	Timeout: 100 * time.Second,
+	//	Transport: &cos.AuthorizationTransport{
+	//		SecretID:  secretId,
+	//		SecretKey: secretKey,
+	//	},
+	//})
+	//
+	//// OSS 对象存储
+	//OSS = &OSSStruct{
+	//	Client: ossClient,
+	//}
+	//
+	//// COS 对象存储
+	//COS = &COSStruct{
+	//	Client: cosClient,
+	//}
+	//// 初始化COS Bucket
+	//COS.Object()
+	//
+	//// KODO 对象存储
+	//KODO = &KODOStruct{
+	//	Client: qbox.NewMac(
+	//		cast.ToString(StorageToml.Get("kodo.access_key")),
+	//		cast.ToString(StorageToml.Get("kodo.secret_key")),
+	//	),
+	//}
 
 	// 本地存储
 	LocalStorage = &LocalStorageStruct{}

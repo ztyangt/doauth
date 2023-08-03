@@ -7,14 +7,14 @@ import (
 )
 
 const (
-	TomlCache   = "cache"
-	TomlDb      = "db"
-	TomlSMS     = "sms"
-	TomlStorage = "storage"
-	TomlPay     = "pay"
-	TomlLog     = "log"
-	TomlApp     = "app"
-	TomlCrypt   = "crypt"
+	//TomlCache = "cache"
+	TomlDb = "db"
+	//TomlSMS   = "sms"
+	//TomlStorage = "storage"
+	//TomlPay     = "pay"
+	TomlLog   = "log"
+	TomlApp   = "app"
+	TomlCrypt = "crypt"
 )
 
 // NewToml - 获取配置文件
@@ -27,16 +27,16 @@ const (
  */
 func NewToml(mode any) *utils.ViperResponse {
 	switch strings.ToLower(cast.ToString(mode)) {
-	case TomlCache:
-		return CacheToml
+	//case TomlCache:
+	//	return CacheToml
 	case TomlDb:
 		return DBToml
-	case TomlSMS:
-		return SMSToml
-	case TomlStorage:
-		return StorageToml
-	case TomlPay:
-		return PayToml
+	//case TomlSMS:
+	//	return SMSToml
+	//case TomlStorage:
+	//	return StorageToml
+	//case TomlPay:
+	//	return PayToml
 	case TomlLog:
 		return LogToml
 	case TomlCrypt:

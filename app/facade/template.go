@@ -6,7 +6,7 @@ const TempApp = `# ======== 基础服务配置 - 修改此文件建议重启服�
 # 应用配置
 [app]
 # 项目运行端口
-port        = 5212
+port        = 5020
 # 调试模式
 debug       = false
 # 登录token名称（别乱改，别作死）
@@ -113,7 +113,7 @@ return_url = "${alipay.return_url}"
 time_zone  = "${alipay.time_zone}"
 `
 
-// TempSMS - 短信配置模板
+// TempSMS - SMS配置模板
 const TempSMS = `# ======== SMS 配置 ========
 
 # 驱动
@@ -141,37 +141,6 @@ nickname  = "${email.nickname}"
 # 邮件签名
 sign_name = "${email.sign_name}"
 
-
-# 阿里云短信服务配置
-[aliyun]
-# 阿里云AccessKey ID
-access_key_id 	  = "${aliyun.access_key_id}"
-# 阿里云AccessKey Secret
-access_key_secret = "${aliyun.access_key_secret}"
-# 阿里云短信服务endpoint
-endpoint		  = "${aliyun.endpoint}"
-# 短信签名
-sign_name         = "${aliyun.sign_name}"
-# 验证码模板
-verify_code       = "${aliyun.verify_code}"
-
-
-# 腾讯云短信服务配置
-[tencent]
-# 腾讯云SecretId
-secret_id         = "${tencent.secret_id}"
-# 腾讯云SecretKey
-secret_key        = "${tencent.secret_key}"
-# 腾讯云短信服务endpoint
-endpoint          = "${tencent.endpoint}"
-# 腾讯云短信服务appid
-sms_sdk_app_id	  = "${tencent.sms_sdk_app_id}"
-# 短信签名
-sign_name         = "${tencent.sign_name}"
-# 验证码模板id
-verify_code       = "${tencent.verify_code}"
-# 区域
-region            = "${tencent.region}"
 `
 
 // TempStorage - 存储配置模板

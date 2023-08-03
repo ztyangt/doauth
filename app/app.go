@@ -1,4 +1,4 @@
-package config
+package app
 
 import (
 	"bytes"
@@ -125,7 +125,7 @@ func notRoute(Gin *gin.Engine) {
 		// 获取请求的路径
 		path := ctx.Request.URL.Path
 		// 页面资源
-		page := []any{"/", "/index.htm", "/index.html", "/index.php", "/index.jsp"}
+		page := []any{"/", "/install", "/index.htm", "/index.html", "/index.php", "/index.jsp"}
 		imgs := []any{"jpg", "jpeg", "png", "gif", "tif", "tiff", "bmp"}
 
 		// path 以 / 分隔，取最后一个到末尾
