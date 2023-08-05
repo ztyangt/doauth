@@ -1,7 +1,7 @@
 package main
 
 import (
-	app "doauth/app"
+	"doauth/app"
 	api "doauth/app/api/route"
 	dev "doauth/app/dev/route"
 	index "doauth/app/index/route"

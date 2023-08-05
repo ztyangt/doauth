@@ -26,6 +26,7 @@ func InitTable() {
 
 	allow := []func(){
 		InitUsers,
+		InitConfig,
 	}
 
 	for _, val := range allow {

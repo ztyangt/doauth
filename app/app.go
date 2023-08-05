@@ -125,13 +125,25 @@ func notRoute(Gin *gin.Engine) {
 		// 获取请求的路径
 		path := ctx.Request.URL.Path
 		// 页面资源
-		page := []any{"/", "/install", "/index.htm", "/index.html", "/index.php", "/index.jsp"}
+		page := []any{"/", "/admin", "/index.htm", "/index.html", "/index.php", "/index.jsp"}
+
+		// 前端路由前缀
+		route := []any{"/install", "/admin"}
+
 		imgs := []any{"jpg", "jpeg", "png", "gif", "tif", "tiff", "bmp"}
 
 		// path 以 / 分隔，取最后一个到末尾
 		prefix := path[:strings.LastIndex(path, "/")]
+		// 路由前缀
+		routePrefix := "/"
+		parts := strings.Split(path, "/")
+		if len(parts) >= 2 {
+			routePrefix = "/" + parts[1]
+		}
+
 		// 文件名
 		fileName := path[strings.LastIndex(path, "/"):]
+
 		// 文件后缀 - 转小写
 		ext := strings.ToLower(fileName[strings.LastIndex(fileName, ".")+1:])
 
@@ -156,8 +168,19 @@ func notRoute(Gin *gin.Engine) {
 		}
 
 		switch {
+		// 页面路由
+		//case strings.HasPrefix(path, "public")
+		case utils.In.Array(routePrefix, route):
+			ctx.Header("Content-Type", "text/html; charset=utf-8")
+			_, err := ctx.Writer.Write(utils.File().Byte("public/index.html").Byte)
+			if err != nil {
+				ctx.JSON(200, gin.H{"code": 400, "msg": "路由加载错误！", "data": nil})
+				break
+			}
+
 		// 页面文件
 		case utils.In.Array(fileName, page):
+			fmt.Println("public/" + prefix + "/index.html")
 			if check := IsExist("public/" + prefix + "/index.html"); check {
 				ctx.Header("Content-Type", "text/html; charset=utf-8")
 				_, err := ctx.Writer.Write(utils.File().Byte("public" + prefix + "/index.html").Byte)

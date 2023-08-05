@@ -1,30 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dataSource name="doauth@localhost">
-  <database-model serializer="dbm" dbms="MYSQL" family-id="MYSQL" format-version="4.48">
-    <root id="1">
-      <DefaultCasing>lower/lower</DefaultCasing>
-      <DefaultEngine>MyISAM</DefaultEngine>
-      <DefaultTmpEngine>InnoDB</DefaultTmpEngine>
-      <Grants>doauth|schema||doauth|localhost|ALTER|G
-doauth|schema||doauth|localhost|ALTER ROUTINE|G
-doauth|schema||doauth|localhost|CREATE|G
-doauth|schema||doauth|localhost|CREATE ROUTINE|G
-doauth|schema||doauth|localhost|CREATE TEMPORARY TABLES|G
-doauth|schema||doauth|localhost|CREATE VIEW|G
-doauth|schema||doauth|localhost|DELETE|G
-doauth|schema||doauth|localhost|DROP|G
-doauth|schema||doauth|localhost|EVENT|G
-doauth|schema||doauth|localhost|EXECUTE|G
-doauth|schema||doauth|localhost|INDEX|G
-doauth|schema||doauth|localhost|INSERT|G
-doauth|schema||doauth|localhost|LOCK TABLES|G
-doauth|schema||doauth|localhost|REFERENCES|G
-doauth|schema||doauth|localhost|SELECT|G
-doauth|schema||doauth|localhost|SHOW VIEW|G
-doauth|schema||doauth|localhost|TRIGGER|G
-doauth|schema||doauth|localhost|UPDATE|G</Grants>
-      <ServerVersion>5.7.26</ServerVersion>
-    </root>
+  <database-model serializer="dbm" dbms="MYSQL" family-id="MYSQL" format-version="4.49">
+    <root id="1"/>
     <collation id="2" parent="1" name="big5_chinese_ci">
       <Charset>big5</Charset>
       <DefaultForCharset>1</DefaultForCharset>
@@ -737,105 +714,174 @@ doauth|schema||doauth|localhost|UPDATE|G</Grants>
     </schema>
     <schema id="225" parent="1" name="doauth">
       <Current>1</Current>
+      <IntrospectionTimestamp>2023-08-05.08:07:10</IntrospectionTimestamp>
+      <LocalIntrospectionTimestamp>2023-08-04.16:07:10</LocalIntrospectionTimestamp>
       <CollationName>utf8_general_ci</CollationName>
     </schema>
     <user id="226" parent="1" name="doauth">
       <Host>localhost</Host>
     </user>
-    <table id="227" parent="225" name="auth_users">
+    <table id="227" parent="225" name="auth_config">
       <Engine>MyISAM</Engine>
       <CollationName>utf8_general_ci</CollationName>
     </table>
-    <column id="228" parent="227" name="id">
+    <table id="228" parent="225" name="auth_users">
+      <Engine>MyISAM</Engine>
+      <CollationName>utf8_general_ci</CollationName>
+    </table>
+    <column id="229" parent="227" name="id">
+      <AutoIncrement>1</AutoIncrement>
+      <Comment>主键</Comment>
+      <DasType>int(32)|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+    </column>
+    <column id="230" parent="227" name="key">
+      <Comment>键</Comment>
+      <DasType>varchar(32)|0s</DasType>
+      <Position>2</Position>
+    </column>
+    <column id="231" parent="227" name="value">
+      <Comment>值</Comment>
+      <DasType>text|0s</DasType>
+      <Position>3</Position>
+    </column>
+    <column id="232" parent="227" name="remark">
+      <Comment>备注</Comment>
+      <DasType>varchar(256)|0s</DasType>
+      <Position>4</Position>
+    </column>
+    <column id="233" parent="227" name="json">
+      <Comment>用于存储JSON数据</Comment>
+      <DasType>longtext|0s</DasType>
+      <Position>5</Position>
+    </column>
+    <column id="234" parent="227" name="text">
+      <Comment>用于存储文本数据</Comment>
+      <DasType>longtext|0s</DasType>
+      <Position>6</Position>
+    </column>
+    <column id="235" parent="227" name="result">
+      <Comment>不存储数据，用于封装返回结果</Comment>
+      <DasType>varchar(256)|0s</DasType>
+      <Position>7</Position>
+    </column>
+    <column id="236" parent="227" name="create_time">
+      <Comment>创建时间</Comment>
+      <DasType>bigint(20)|0s</DasType>
+      <Position>8</Position>
+    </column>
+    <column id="237" parent="227" name="update_time">
+      <Comment>更新时间</Comment>
+      <DasType>bigint(20)|0s</DasType>
+      <Position>9</Position>
+    </column>
+    <column id="238" parent="227" name="delete_time">
+      <Comment>删除时间</Comment>
+      <DasType>bigint(20) unsigned|0s</DasType>
+      <DefaultExpression>0</DefaultExpression>
+      <Position>10</Position>
+    </column>
+    <index id="239" parent="227" name="PRIMARY">
+      <ColNames>id</ColNames>
+      <Type>btree</Type>
+      <Unique>1</Unique>
+    </index>
+    <key id="240" parent="227" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
+    </key>
+    <column id="241" parent="228" name="id">
       <AutoIncrement>2</AutoIncrement>
       <Comment>主键</Comment>
       <DasType>int(32)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="229" parent="227" name="account">
+    <column id="242" parent="228" name="account">
       <Comment>帐号</Comment>
       <DasType>varchar(32)|0s</DasType>
       <Position>2</Position>
     </column>
-    <column id="230" parent="227" name="password">
+    <column id="243" parent="228" name="password">
       <Comment>密码</Comment>
       <DasType>varchar(256)|0s</DasType>
       <Position>3</Position>
     </column>
-    <column id="231" parent="227" name="nickname">
+    <column id="244" parent="228" name="nickname">
       <Comment>昵称</Comment>
       <DasType>varchar(32)|0s</DasType>
       <Position>4</Position>
     </column>
-    <column id="232" parent="227" name="email">
+    <column id="245" parent="228" name="email">
       <Comment>邮箱</Comment>
       <DasType>varchar(128)|0s</DasType>
       <Position>5</Position>
     </column>
-    <column id="233" parent="227" name="avatar">
+    <column id="246" parent="228" name="avatar">
       <Comment>头像</Comment>
       <DasType>varchar(256)|0s</DasType>
       <Position>6</Position>
     </column>
-    <column id="234" parent="227" name="description">
+    <column id="247" parent="228" name="description">
       <Comment>描述</Comment>
       <DasType>varchar(256)|0s</DasType>
       <Position>7</Position>
     </column>
-    <column id="235" parent="227" name="level">
+    <column id="248" parent="228" name="level">
       <Comment>身份</Comment>
       <DasType>bigint(20)|0s</DasType>
       <DefaultExpression>0</DefaultExpression>
       <Position>8</Position>
     </column>
-    <column id="236" parent="227" name="remark">
+    <column id="249" parent="228" name="remark">
       <Comment>备注</Comment>
       <DasType>varchar(256)|0s</DasType>
       <Position>9</Position>
     </column>
-    <column id="237" parent="227" name="json">
+    <column id="250" parent="228" name="json">
       <Comment>用于存储JSON数据</Comment>
       <DasType>longtext|0s</DasType>
       <Position>10</Position>
     </column>
-    <column id="238" parent="227" name="text">
+    <column id="251" parent="228" name="text">
       <Comment>用于存储文本数据</Comment>
       <DasType>longtext|0s</DasType>
       <Position>11</Position>
     </column>
-    <column id="239" parent="227" name="result">
+    <column id="252" parent="228" name="result">
       <Comment>不存储数据，用于封装返回结果</Comment>
       <DasType>varchar(256)|0s</DasType>
       <Position>12</Position>
     </column>
-    <column id="240" parent="227" name="login_time">
+    <column id="253" parent="228" name="login_time">
       <Comment>登录时间</Comment>
       <DasType>int(11)|0s</DasType>
       <Position>13</Position>
     </column>
-    <column id="241" parent="227" name="create_time">
+    <column id="254" parent="228" name="create_time">
       <Comment>创建时间</Comment>
       <DasType>bigint(20)|0s</DasType>
       <Position>14</Position>
     </column>
-    <column id="242" parent="227" name="update_time">
+    <column id="255" parent="228" name="update_time">
       <Comment>更新时间</Comment>
       <DasType>bigint(20)|0s</DasType>
       <Position>15</Position>
     </column>
-    <column id="243" parent="227" name="delete_time">
+    <column id="256" parent="228" name="delete_time">
       <Comment>删除时间</Comment>
       <DasType>bigint(20) unsigned|0s</DasType>
       <DefaultExpression>0</DefaultExpression>
       <Position>16</Position>
     </column>
-    <index id="244" parent="227" name="PRIMARY">
+    <index id="257" parent="228" name="PRIMARY">
       <ColNames>id</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <key id="245" parent="227" name="PRIMARY">
+    <key id="258" parent="228" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
