@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"doauth/app/facade"
 	"doauth/app/model"
 	"errors"
 	"github.com/gin-gonic/gin"
@@ -127,6 +128,15 @@ func (this base) get(ctx *gin.Context, key any, def ...any) (value any) {
 		}
 	}
 	return
+}
+
+// 接口权限校验
+func (this base) auth(ctx *gin.Context) bool {
+	if utils.Is.Empty(ctx.Request.Header.Get("Authorization")) {
+		this.json(ctx, nil, facade.Lang(ctx, "禁止非法操作！"), 401)
+		return false
+	}
+	return true
 }
 
 // ============================== cache ==============================

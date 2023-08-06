@@ -13,7 +13,8 @@ func Route(Gin *gin.Engine) {
 	// 全局中间件
 	group := Gin.Group("/api/").Use(
 		global.Params(), // 解析参数
-		middle.Jwt(),    // 验证权限
+		//middle.Rule(),   // 验证规则
+		middle.Jwt(), // 验证权限
 	)
 
 	// 允许动态挂载的路由

@@ -113,6 +113,10 @@ func (this *Config) one(ctx *gin.Context) {
 
 // 获取配置列表
 func (this *Config) list(ctx *gin.Context) {
+	if !this.auth(ctx) {
+		return
+	}
+
 	code := 204
 	msg := []string{"无数据！", ""}
 	var data any
@@ -134,6 +138,10 @@ func (this *Config) list(ctx *gin.Context) {
 
 // 保存配置
 func (this *Config) save(ctx *gin.Context) {
+	if !this.auth(ctx) {
+		return
+	}
+
 	params := this.params(ctx)
 	if utils.Is.Empty(params["key"]) {
 		this.create(ctx)

@@ -9,8 +9,8 @@
     </root>
     <schema id="2" parent="1" name="doauth">
       <Current>1</Current>
-      <IntrospectionTimestamp>2023-08-06.21:01:49</IntrospectionTimestamp>
-      <LocalIntrospectionTimestamp>2023-08-06.05:01:49</LocalIntrospectionTimestamp>
+      <IntrospectionTimestamp>2023-08-07.01:06:05</IntrospectionTimestamp>
+      <LocalIntrospectionTimestamp>2023-08-06.09:06:05</LocalIntrospectionTimestamp>
     </schema>
     <schema id="3" parent="1" name="information_schema"/>
     <table id="4" parent="2" name="auth_config">
@@ -22,7 +22,7 @@
       <CollationName>utf8_general_ci</CollationName>
     </table>
     <column id="6" parent="4" name="id">
-      <AutoIncrement>2</AutoIncrement>
+      <AutoIncrement>4</AutoIncrement>
       <Comment>主键</Comment>
       <DasType>int(32)|0s</DasType>
       <NotNull>1</NotNull>
