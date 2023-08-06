@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dataSource name="doauth@localhost">
   <database-model serializer="dbm" dbms="MYSQL" family-id="MYSQL" format-version="4.49">
-    <root id="1"/>
+    <root id="1">
+      <DefaultEngine>MyISAM</DefaultEngine>
+      <DefaultTmpEngine>InnoDB</DefaultTmpEngine>
+      <ServerVersion>5.7.26</ServerVersion>
+    </root>
     <collation id="2" parent="1" name="big5_chinese_ci">
       <Charset>big5</Charset>
       <DefaultForCharset>1</DefaultForCharset>
@@ -714,8 +718,8 @@
     </schema>
     <schema id="225" parent="1" name="doauth">
       <Current>1</Current>
-      <IntrospectionTimestamp>2023-08-05.08:07:10</IntrospectionTimestamp>
-      <LocalIntrospectionTimestamp>2023-08-04.16:07:10</LocalIntrospectionTimestamp>
+      <IntrospectionTimestamp>2023-08-06.20:50:49</IntrospectionTimestamp>
+      <LocalIntrospectionTimestamp>2023-08-06.04:50:49</LocalIntrospectionTimestamp>
       <CollationName>utf8_general_ci</CollationName>
     </schema>
     <user id="226" parent="1" name="doauth">
@@ -730,7 +734,7 @@
       <CollationName>utf8_general_ci</CollationName>
     </table>
     <column id="229" parent="227" name="id">
-      <AutoIncrement>1</AutoIncrement>
+      <AutoIncrement>2</AutoIncrement>
       <Comment>主键</Comment>
       <DasType>int(32)|0s</DasType>
       <NotNull>1</NotNull>

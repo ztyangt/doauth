@@ -2,12 +2,14 @@ package model
 
 import (
 	"doauth/app/facade"
+	"github.com/unti-io/go-utils/utils"
+	"gorm.io/gorm"
 	"gorm.io/plugin/soft_delete"
 )
 
 type Config struct {
 	Id     int    `gorm:"type:int(32); comment:主键;" json:"id"`
-	Key    string `gorm:"size:32; comment:键;" json:"key"`
+	Key    string `gorm:"size:32; comment:键; " json:"key"`
 	Value  string `gorm:"type:text; comment:值;" json:"value"`
 	Remark string `gorm:"comment:备注;" json:"remark"`
 	// 以下为公共字段
@@ -21,10 +23,32 @@ type Config struct {
 
 // InitConfig - 初始化Config表
 func InitConfig() {
+	tableExist := facade.DB.Drive().Migrator().HasTable(&Config{})
+
 	// 迁移表
 	err := facade.DB.Drive().AutoMigrate(&Config{})
 	if err != nil {
 		facade.Log.Error(map[string]any{"error": err}, "Config表迁移失败")
 		return
 	}
+
+	//插入默认数据
+	if !tableExist {
+		siteConfig := map[string]any{
+			"site_name":   "DoAuth",
+			"logo":        "/assets/images/logo.svg",
+			"description": "DoAuth域名授权管理系统，保护您的源码安全。",
+			"tags":        []string{"丰富功能", "实用接口", "极致响应"},
+		}
+		defaultConfig := []Config{
+			{Key: "site_config", Json: utils.JsonEncode(siteConfig), Remark: "系统配置"},
+		}
+		facade.DB.Model(&Config{}).Create(&defaultConfig)
+	}
+}
+
+// AfterFind - 查询后的钩子
+func (this *Config) AfterFind(tx *gorm.DB) (err error) {
+	this.Json = utils.Json.Decode(this.Json)
+	return
 }

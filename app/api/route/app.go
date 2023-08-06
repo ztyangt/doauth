@@ -19,7 +19,8 @@ func Route(Gin *gin.Engine) {
 	// 允许动态挂载的路由
 	allow := map[string]controller.ApiInterface{
 		//"test":  &controller.Test{},
-		"comm": &controller.Comm{},
+		"comm":   &controller.Comm{},
+		"config": &controller.Config{},
 		//"file":  &controller.File{},
 		//"users": &controller.Users{},
 		//"proxy": &controller.Proxy{},
