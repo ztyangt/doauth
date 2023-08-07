@@ -22,7 +22,7 @@ func Route(Gin *gin.Engine) {
 		//"test":  &controller.Test{},
 		"comm":   &controller.Comm{},
 		"config": &controller.Config{},
-		//"file":  &controller.File{},
+		"file":   &controller.File{},
 		//"users": &controller.Users{},
 		//"proxy": &controller.Proxy{},
 	}

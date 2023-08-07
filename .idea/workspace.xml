@@ -5,12 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0fc1e874-fc7c-47e4-9217-eddcac8ca1c2" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/86db7dcc-c1c1-4838-9af9-5a13f6973c41.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/86db7dcc-c1c1-4838-9af9-5a13f6973c41/storage_v2/_src_/schema/doauth.s6zusA.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/86db7dcc-c1c1-4838-9af9-5a13f6973c41/storage_v2/_src_/schema/information_schema.FNRwLQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/model/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/model/config.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/api/controller/file.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/controller/file.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/api/route/app.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/route/app.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,10 +53,9 @@
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
   </component>
-  <component name="ProjectColorInfo">{
-  &quot;customColor&quot;: &quot;&quot;,
-  &quot;associatedIndex&quot;: -1
-}</component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 7
+}]]></component>
   <component name="ProjectId" id="2SzvQJiCQHCPn8HkFm7qhdmlDAW" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />

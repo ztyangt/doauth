@@ -26,8 +26,7 @@ func (this *File) IGET(ctx *gin.Context) {
 	method := strings.ToLower(ctx.Param("method"))
 
 	allow := map[string]any{
-		"rand":      this.rand,
-		"to-base64": this.toBase64,
+		//"rand":      this.rand,
 	}
 	err := this.call(allow, method, ctx)
 
@@ -44,7 +43,8 @@ func (this *File) IPOST(ctx *gin.Context) {
 	method := strings.ToLower(ctx.Param("method"))
 
 	allow := map[string]any{
-		"upload": this.upload,
+		"upload":    this.upload,
+		"to-base64": this.toBase64,
 	}
 	err := this.call(allow, method, ctx)
 
