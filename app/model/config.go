@@ -2,6 +2,7 @@ package model
 
 import (
 	"doauth/app/facade"
+	"github.com/spf13/cast"
 	"github.com/unti-io/go-utils/utils"
 	"gorm.io/gorm"
 	"gorm.io/plugin/soft_delete"
@@ -50,5 +51,7 @@ func InitConfig() {
 // AfterFind - 查询后的钩子
 func (this *Config) AfterFind(tx *gorm.DB) (err error) {
 	this.Json = utils.Json.Decode(this.Json)
+	this.Result = map[string]any{}
+	this.Text = cast.ToString(this.Text)
 	return
 }
