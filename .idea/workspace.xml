@@ -5,12 +5,40 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0fc1e874-fc7c-47e4-9217-eddcac8ca1c2" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/app/validator/email.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/d230c68c-46f4-46e6-8dfc-d7811bd3e1f2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/d230c68c-46f4-46e6-8dfc-d7811bd3e1f2.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/d230c68c-46f4-46e6-8dfc-d7811bd3e1f2/storage_v2/_src_/schema/domain.xNTzsA.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/d230c68c-46f4-46e6-8dfc-d7811bd3e1f2/storage_v2/_src_/schema/domain.xNTzsA.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/api/controller/base.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/controller/base.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/api/controller/comm.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/controller/comm.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/validator/base.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/validator/base.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/api/controller/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/controller/config.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/facade/sms.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/facade/sms.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/model/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/model/config.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/validator/users.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/validator/users.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/static/403-eafb6b0d.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/static/404-d5eaca06.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/static/LottieItem-438011e6.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/static/add-2c05d7c5.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/static/add-3ec5282a.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/static/card-7c12a8fc.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/static/form-item-218342d5.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/static/index-26e9b5b0.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/static/index-6c108ddb.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/static/index-77819c89.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/static/index-91d80078.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/static/index-94e66cca.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/static/index-b342abbd.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/static/index-d6c1a978.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/static/index-ddaa60fb.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/static/index-f233ea43.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/static/index-fa78fb58.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/static/list-1d6b043a.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/static/list-a4357703.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/static/site-1128bdb8.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/static/site-a4e4448e.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/static/tag-f56ab29b.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/static/type-e0250c57.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/static/user-6e951481.js" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

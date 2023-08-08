@@ -38,7 +38,8 @@ func InitConfig() {
 		siteConfig := map[string]any{
 			"site_name":   "DoAuth",
 			"logo":        "/assets/images/logo.svg",
-			"description": "DoAuth域名授权管理系统，保护您的源码安全。",
+			"description": "DoAuth域名授权管理系统，保护您的源码安全",
+			"sysdesc":     "1. DoAuth域名授权管理系统，保护您的源码安全\n2. 丰富的自定义授权配置\n3. 极致的响应速度\n4. 方便的域名授权和软件管理",
 			"tags":        []string{"丰富功能", "实用接口", "极致响应"},
 		}
 		emeilConfig := map[string]any{
@@ -51,9 +52,9 @@ func InitConfig() {
 		}
 
 		defaultConfig := []Config{
-			{Key: "SITE_CONFIG", Json: utils.JsonEncode(siteConfig), Remark: "系统配置"},
-			{Key: "EMAIL_CONFIG", Json: utils.JsonEncode(emeilConfig), Remark: "邮件配置"},
-			{Key: "ALLOW_REGISTER", Value: "1", Remark: "允许注册"},
+			{Key: "site_config", Json: utils.JsonEncode(siteConfig), Remark: "系统配置"},
+			{Key: "email_config", Json: utils.JsonEncode(emeilConfig), Remark: "邮件配置"},
+			{Key: "allow_register", Value: "1", Remark: "允许注册"},
 		}
 		facade.DB.Model(&Config{}).Create(&defaultConfig)
 	}

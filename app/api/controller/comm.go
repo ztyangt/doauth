@@ -4,6 +4,7 @@ import (
 	"doauth/app/facade"
 	"doauth/app/model"
 	"doauth/app/validator"
+	"errors"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/cast"
@@ -42,7 +43,7 @@ func (this *Comm) IPOST(ctx *gin.Context) {
 	allow := map[string]any{
 		"login":      this.login,
 		"send-email": this.sendEmail,
-		//"register":      this.register,
+		"register":   this.register,
 		//"social-login":  this.socialLogin,
 		//"check-token":   this.checkToken,
 		//"reset-passowd": this.resetPassword,
@@ -185,54 +186,32 @@ func (this *Comm) register(ctx *gin.Context) {
 	// 表数据结构体
 	table := model.Users{}
 	// 请求参数
-	params := this.params(ctx, map[string]any{
-		"source": "default",
-	})
+	params := this.params(ctx)
 
-	// 验证器
-	err := validator.NewValid("users", params)
+	if !utils.Is.Empty(params["code"]) {
+		// 验证器
+		err := validator.NewValid("users", params)
 
-	// 参数校验不通过
-	if err != nil {
-		this.json(ctx, nil, err.Error(), 400)
-		return
+		// 参数校验不通过
+		if err != nil {
+			this.json(ctx, nil, err.Error(), 400)
+			return
+		}
 	}
 
-	if utils.Is.Empty(params["social"]) {
-		this.json(ctx, nil, facade.Lang(ctx, "%s 不能为空！", "social"), 400)
-		return
-	}
-
-	var social string
-	social = utils.Ternary(utils.Is.Email(params["social"]), "email", social)
-	social = utils.Ternary(utils.Is.Phone(params["social"]), "phone", social)
-
-	if utils.Is.Empty(social) {
-		this.json(ctx, nil, facade.Lang(ctx, "%s 格式不正确！", "social"), 400)
-		return
-	}
-
-	// 判断是否已经注册
+	// 判断邮箱是否已经注册
 	ok := facade.DB.Model(&table).Where([]any{
-		[]any{"source", "=", params["source"]},
-		[]any{social, "=", params["social"]},
+		[]any{"email", "=", params["email"]},
 	}).Exist()
 	// 已注册
 	if ok {
-		switch social {
-		case "email":
-			this.json(ctx, nil, facade.Lang(ctx, "该邮箱已经注册！"), 400)
-			return
-		case "phone":
-			this.json(ctx, nil, facade.Lang(ctx, "该手机号已经注册！"), 400)
-			return
-		}
+		this.json(ctx, nil, facade.Lang(ctx, "该邮箱已经注册！"), 400)
+		return
 	}
 
 	if !utils.Is.Empty(params["account"]) {
 		// 判断账号是否已经注册
 		ok := facade.DB.Model(&table).Where([]any{
-			[]any{"source", "=", params["source"]},
 			[]any{"account", "=", params["account"]},
 		}).Exist()
 		if ok {
@@ -241,20 +220,19 @@ func (this *Comm) register(ctx *gin.Context) {
 		}
 	}
 
-	cacheName := fmt.Sprintf("%v-%v", social, params["social"])
+	cacheName := "auth_code"
 
 	// 验证码为空 - 发送验证码
 	if utils.Is.Empty(params["code"]) {
 
-		drive := utils.Ternary(social == "email", "email", "sms")
-		sms := facade.NewSMS(drive).VerifyCode(params["social"])
+		sms := this.sendCode(params["email"])
 		if sms.Error != nil {
 			this.json(ctx, nil, sms.Error.Error(), 400)
 			return
 		}
 		// 缓存验证码 - 5分钟
 		facade.Cache.Set(cacheName, sms.VerifyCode, 5*time.Minute)
-		this.json(ctx, nil, facade.Lang(ctx, "验证码发送成功！"), 201)
+		this.json(ctx, nil, facade.Lang(ctx, "验证码发送成功！"), 200)
 		return
 	}
 
@@ -284,7 +262,6 @@ func (this *Comm) register(ctx *gin.Context) {
 			utils.Struct.Set(&table, key, val)
 		}
 	}
-	utils.Struct.Set(&table, social, params["social"])
 
 	// 设置登录时间
 	utils.Struct.Set(&table, "login_time", time.Now().Unix())
@@ -672,7 +649,9 @@ func (this *Comm) logout(ctx *gin.Context) {
 
 // 发送邮件
 func (this *Comm) sendEmail(ctx *gin.Context) {
-
+	if !this.admin(ctx) {
+		return
+	}
 	if !this.auth(ctx) {
 		return
 	}
@@ -725,7 +704,58 @@ func setToken(ctx *gin.Context, token any) {
 
 // 获取注册配置
 func (this *Comm) signInConfig() (result map[string]any) {
+	table := model.Config{}
+	utils.Struct.Set(&table, "key", "allow_register")
+	config := facade.DB.Model(&table).Where(table).Find()
 	return map[string]any{
-		"value": 1,
+		"value": config["value"],
 	}
+}
+
+func (this *Comm) sendCode(email any, code ...any) (response *facade.SMSResponse) {
+	response = &facade.SMSResponse{}
+	emailData := facade.DB.Model(&model.Config{}).Where(map[string]any{"key": "email_config"}).Find()
+
+	emailConfig := cast.ToStringMap(emailData["json"])
+
+	if !utils.Is.Email(email) {
+		response.Error = errors.New("格式错误，请给一个正确的邮箱地址")
+		return
+	}
+
+	if len(code) == 0 {
+		code = append(code, utils.Rand.String(6, "0123456789"))
+	}
+
+	Template := "您的验证码是：${code}，有效期5分钟。（请不要把验证码告诉别人）"
+
+	item := gomail.NewMessage()
+	nickname := cast.ToString(emailConfig["nickname"])
+	account := cast.ToString(emailConfig["account"])
+	item.SetHeader("From", nickname+"<"+account+">")
+	// 发送给多个用户
+	item.SetHeader("To", cast.ToString(email))
+	// 设置邮件主题
+	item.SetHeader("Subject", "验证码")
+	// 替换验证码
+	temp := utils.Replace(Template, map[string]any{
+		"${code}": code[0],
+	})
+	// 设置邮件正文
+	item.SetBody("text/html", temp)
+
+	GoMail := gomail.NewDialer(cast.ToString(emailConfig["host"]), cast.ToInt(emailConfig["port"]), cast.ToString(emailConfig["account"]), cast.ToString(emailConfig["password"]))
+
+	// 发送邮件
+	err := GoMail.DialAndSend(item)
+	//err := GoMail.DialAndSend(item)
+
+	if err != nil {
+		response.Error = err
+		return response
+	}
+
+	response.VerifyCode = cast.ToString(code[0])
+
+	return response
 }

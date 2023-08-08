@@ -139,6 +139,28 @@ func (this base) auth(ctx *gin.Context) bool {
 	return true
 }
 
+// 接口管理员权限校验
+func (this base) admin(ctx *gin.Context) bool {
+	if utils.Is.Empty(ctx.Request.Header.Get("Authorization")) {
+		this.json(ctx, nil, facade.Lang(ctx, "禁止非法操作！"), 401)
+		return false
+	} else {
+		user, ok := ctx.Get("user")
+		if !ok {
+			this.json(ctx, nil, facade.Lang(ctx, "禁止非法操作！"), 401)
+			return false
+		} else {
+			data := cast.ToStringMap(user)
+			if !cast.ToBool(data["level"]) {
+				this.json(ctx, nil, facade.Lang(ctx, "无权限！"), 401)
+				return false
+			}
+			return true
+		}
+
+	}
+}
+
 // ============================== cache ==============================
 
 type cache struct{}

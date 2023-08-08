@@ -239,7 +239,7 @@ func (this *GoMailRequest) VerifyCode(phone any, code ...any) (response *SMSResp
 	}
 
 	if utils.Is.Empty(this.Template) {
-		this.Template = "您的验证码是：${code}，有效期5分钟。（打死也不要把验证码告诉别人）"
+		this.Template = "您的验证码是：${code}，有效期5分钟。（请不要把验证码告诉别人）"
 	}
 
 	item := gomail.NewMessage()
@@ -257,8 +257,11 @@ func (this *GoMailRequest) VerifyCode(phone any, code ...any) (response *SMSResp
 	// 设置邮件正文
 	item.SetBody("text/html", temp)
 
+	//GoMail := gomail.NewDialer(cast.ToString(params["host"]), cast.ToInt(params["port"]), cast.ToString(params["account"]), cast.ToString(params["password"]))
+
 	// 发送邮件
 	err := this.Client.DialAndSend(item)
+	//err := GoMail.DialAndSend(item)
 
 	if err != nil {
 		response.Error = err
