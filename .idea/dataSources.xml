@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="doauth@localhost" uuid="bfba127f-c8e7-4259-ad31-0d01c70b2d4b">
+    <data-source source="LOCAL" name="domain@localhost" uuid="d230c68c-46f4-46e6-8dfc-d7811bd3e1f2">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://localhost:3306/doauth</jdbc-url>
+      <jdbc-url>jdbc:mysql://localhost:3306/domain</jdbc-url>
       <jdbc-additional-properties>
         <property name="com.intellij.clouds.kubernetes.db.enabled" value="false" />
       </jdbc-additional-properties>

@@ -41,8 +41,19 @@ func InitConfig() {
 			"description": "DoAuth域名授权管理系统，保护您的源码安全。",
 			"tags":        []string{"丰富功能", "实用接口", "极致响应"},
 		}
+		emeilConfig := map[string]any{
+			"host":     "",
+			"port":     "",
+			"account":  "",
+			"password": "",
+			"nickname": "",
+			"subject":  "",
+		}
+
 		defaultConfig := []Config{
-			{Key: "site_config", Json: utils.JsonEncode(siteConfig), Remark: "系统配置"},
+			{Key: "SITE_CONFIG", Json: utils.JsonEncode(siteConfig), Remark: "系统配置"},
+			{Key: "EMAIL_CONFIG", Json: utils.JsonEncode(emeilConfig), Remark: "邮件配置"},
+			{Key: "ALLOW_REGISTER", Value: "1", Remark: "允许注册"},
 		}
 		facade.DB.Model(&Config{}).Create(&defaultConfig)
 	}

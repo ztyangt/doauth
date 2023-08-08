@@ -42,8 +42,8 @@ func (this *Comm) IPOST(ctx *gin.Context) {
 		"login": this.login,
 		//"register":      this.register,
 		//"social-login":  this.socialLogin,
-		"check-token":   this.checkToken,
-		"reset-passowd": this.resetPassword,
+		//"check-token":   this.checkToken,
+		//"reset-passowd": this.resetPassword,
 	}
 	err := this.call(allow, method, ctx)
 

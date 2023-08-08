@@ -72,21 +72,6 @@ func (this *Users) AfterFind(tx *gorm.DB) (err error) {
 			// 获取QQ号
 			qq := regexp2.MustCompile(`[1-9]\d+`).FindString(this.Email)
 			this.Avatar = "https://q1.qlogo.cn/g?b=qq&nk=" + qq + "&s=100"
-
-		} else {
-			//avatars := utils.File(utils.FileRequest{
-			//	Ext:    ".png, .jpg, .jpeg, .gif",
-			//	Dir:    "public/assets/images/avatar/",
-			//	Domain: fmt.Sprintf("%v/", facade.Cache.Get("domain")),
-			//	Prefix: "public/",
-			//}).List()
-			//
-			//// 随机获取头像
-			//if len(avatars.Slice) > 0 {
-			//	this.Avatar = cast.ToString(avatars.Slice[utils.Rand.Int(0, len(avatars.Slice)-1)])
-			//}
-
-			this.Avatar = "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/PjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+PHN2ZyB0PSIxNjkwMTY5NDE4MjU4IiBjbGFzcz0iaWNvbiIgdmlld0JveD0iMCAwIDEwMjQgMTAyNCIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHAtaWQ9IjM2MDEiIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iMTI4IiBoZWlnaHQ9IjEyOCI+PHBhdGggZD0iTTAgNTEyYzAgMjgyLjQgMjI5LjYgNTEyIDUxMiA1MTJzNTEyLTIyOS42IDUxMi01MTJTNzk0LjQgMCA1MTIgMCAwIDIyOS42IDAgNTEyeiIgZmlsbD0iI0MwRTBGRiIgcC1pZD0iMzYwMiI+PC9wYXRoPjxwYXRoIGQ9Ik03MDkuNiA4MjRIMzE1LjJjLTM2IDAtNjUuNi0yOS42LTY1LjYtNjUuNiAwLTExNy42IDk1LjItMjEzLjYgMjEzLjYtMjEzLjZoOTguNGMxMTcuNiAwIDIxMy42IDk1LjIgMjEzLjYgMjEzLjYgMCAzNi0yOC44IDY1LjYtNjUuNiA2NS42ek01MTIgNTI4Yy05MC40IDAtMTY0LTczLjYtMTY0LTE2NFM0MjEuNiAyMDAgNTEyIDIwMHMxNjQgNzMuNiAxNjQgMTY0QzY3Ni44IDQ1NS4yIDYwMi40IDUyOCA1MTIgNTI4eiIgZmlsbD0iIzY0QjlGRiIgcC1pZD0iMzYwMyI+PC9wYXRoPjxwYXRoIGQ9Ik03MDkuNiA4MjRIMzE1LjJjLTM2IDAtNjUuNi0yOS42LTY1LjYtNjUuNiAwLTExNy42IDk1LjItMjEzLjYgMjEzLjYtMjEzLjZoOTguNGMxMTcuNiAwIDIxMy42IDk1LjIgMjEzLjYgMjEzLjYgMCAzNi0yOC44IDY1LjYtNjUuNiA2NS42ek01MTIuOCA1MjhjLTkwLjQgMC0xNjQtNzMuNi0xNjQtMTY0QzM0OCAyNzMuNiA0MjEuNiAyMDAgNTEyIDIwMHMxNjQgNzMuNiAxNjQgMTY0QzY3Ni44IDQ1NS4yIDYwMi40IDUyOCA1MTIuOCA1Mjh6IiBmaWxsPSIjNjRCOUZGIiBwLWlkPSIzNjA0Ij48L3BhdGg+PC9zdmc+"
 		}
 	}
 

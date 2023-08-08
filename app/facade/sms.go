@@ -6,7 +6,6 @@ import (
 	AliYunUtil "github.com/alibabacloud-go/openapi-util/service"
 	AliYunUtilV2 "github.com/alibabacloud-go/tea-utils/v2/service"
 	"github.com/alibabacloud-go/tea/tea"
-	"github.com/fsnotify/fsnotify"
 	"github.com/spf13/cast"
 	"github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common"
 	"github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common/profile"
@@ -19,16 +18,16 @@ import (
 func init() {
 
 	// 初始化配置文件
-	initSMSToml()
+	//initSMSToml()
 	// 初始化缓存
-	initSMS()
+	//initSMS()
 
 	// 监听配置文件变化
-	SMSToml.Viper.WatchConfig()
+	//SMSToml.Viper.WatchConfig()
 	// 配置文件变化时，重新初始化配置文件
-	SMSToml.Viper.OnConfigChange(func(event fsnotify.Event) {
-		initSMS()
-	})
+	//SMSToml.Viper.OnConfigChange(func(event fsnotify.Event) {
+	//	initSMS()
+	//})
 }
 
 const (
@@ -70,27 +69,27 @@ func initSMSToml() {
 		Mode: "toml",
 		Name: "sms",
 		Content: utils.Replace(TempSMS, map[string]any{
-			"${drive.sms}": "email",
-			"${drive.email}": "aliyun",
-			"${drive.default}": "email",
-			"${email.host}": "smtp.qq.com",
-			"${email.port}": 465,
-			"${email.account}": "xxx@qq.com",
-			"${email.password}": "",
-			"${email.nickname}": "unti",
-			"${email.sign_name}": "unti",
-			"${aliyun.access_key_id}": "",
+			"${drive.sms}":                "email",
+			"${drive.email}":              "aliyun",
+			"${drive.default}":            "email",
+			"${email.host}":               "smtp.qq.com",
+			"${email.port}":               465,
+			"${email.account}":            "xxx@qq.com",
+			"${email.password}":           "",
+			"${email.nickname}":           "unti",
+			"${email.sign_name}":          "unti",
+			"${aliyun.access_key_id}":     "",
 			"${aliyun.access_key_secret}": "",
-			"${aliyun.endpoint}": "dysmsapi.aliyuncs.com",
-			"${aliyun.sign_name}": "",
-			"${aliyun.verify_code}": "",
-			"${tencent.secret_id}": "",
-			"${tencent.secret_key}": "",
-			"${tencent.endpoint}": "sms.tencentcloudapi.com",
-			"${tencent.sms_sdk_app_id}": "",
-			"${tencent.sign_name}": "",
-			"${tencent.verify_code}": "",
-			"${tencent.region}": "ap-guangzhou",
+			"${aliyun.endpoint}":          "dysmsapi.aliyuncs.com",
+			"${aliyun.sign_name}":         "",
+			"${aliyun.verify_code}":       "",
+			"${tencent.secret_id}":        "",
+			"${tencent.secret_key}":       "",
+			"${tencent.endpoint}":         "sms.tencentcloudapi.com",
+			"${tencent.sms_sdk_app_id}":   "",
+			"${tencent.sign_name}":        "",
+			"${tencent.verify_code}":      "",
+			"${tencent.region}":           "ap-guangzhou",
 		}),
 	}).Read()
 

@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="dataSourceStorageLocal" created-in="GO-232.8660.185">
-    <data-source name="doauth@localhost" uuid="bfba127f-c8e7-4259-ad31-0d01c70b2d4b">
+    <data-source name="domain@localhost" uuid="d230c68c-46f4-46e6-8dfc-d7811bd3e1f2">
       <database-info product="MySQL" version="5.7.26" jdbc-version="4.2" driver-name="MySQL Connector/J" driver-version="mysql-connector-java-8.0.25 (Revision: 08be9e9b4cba6aa115f9b27b215887af40b159e0)" dbms="MYSQL" exact-version="5.7.26" exact-driver-version="8.0">
         <extra-name-characters>#@</extra-name-characters>
         <identifier-quote-string>`</identifier-quote-string>
+        <jdbc-catalog-is-schema>true</jdbc-catalog-is-schema>
       </database-info>
       <case-sensitivity plain-identifiers="lower" quoted-identifiers="lower" />
       <secret-storage>master_key</secret-storage>
-      <user-name>doauth</user-name>
+      <user-name>domain</user-name>
       <schema-mapping>
         <introspection-scope>
           <node kind="schema" qname="@" />
