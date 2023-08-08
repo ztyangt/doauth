@@ -8,6 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/cast"
 	"github.com/unti-io/go-utils/utils"
+	"gopkg.in/gomail.v2"
 	"regexp"
 	"strings"
 	"time"
@@ -39,7 +40,8 @@ func (this *Comm) IPOST(ctx *gin.Context) {
 	method := strings.ToLower(ctx.Param("method"))
 
 	allow := map[string]any{
-		"login": this.login,
+		"login":      this.login,
+		"send-email": this.sendEmail,
 		//"register":      this.register,
 		//"social-login":  this.socialLogin,
 		//"check-token":   this.checkToken,
@@ -666,6 +668,45 @@ func (this *Comm) checkToken(ctx *gin.Context) {
 func (this *Comm) logout(ctx *gin.Context) {
 	ctx.SetCookie(cast.ToString(facade.AppToml.Get("app.token_name", "doauth_LOGIN_TOKEN")), "", -1, "/", "", false, false)
 	this.json(ctx, nil, facade.Lang(ctx, "退出成功！"), 200)
+}
+
+// 发送邮件
+func (this *Comm) sendEmail(ctx *gin.Context) {
+
+	if !this.auth(ctx) {
+		return
+	}
+
+	params := this.params(ctx, map[string]any{})
+
+	err := validator.NewValid("email", params)
+	if err != nil {
+		this.json(ctx, nil, err.Error(), 400)
+		return
+	}
+
+	item := gomail.NewMessage()
+	nickname := cast.ToString(params["nickname"])
+	account := cast.ToString(params["account"])
+	item.SetHeader("From", nickname+"<"+account+">")
+	// 发送给多个用户
+	item.SetHeader("To", cast.ToString(params["receive"]))
+	// 设置邮件主题
+	item.SetHeader("Subject", cast.ToString(params["subject"]))
+	// 设置邮件正文
+	item.SetBody("text/html", cast.ToString(params["content"]))
+
+	GoMail := gomail.NewDialer(cast.ToString(params["host"]), cast.ToInt(params["port"]), cast.ToString(params["account"]), cast.ToString(params["password"]))
+
+	// 发送邮件
+	err = GoMail.DialAndSend(item)
+
+	if err != nil {
+		this.json(ctx, nil, facade.Lang(ctx, err.Error()), 400)
+		return
+	}
+
+	this.json(ctx, nil, facade.Lang(ctx, "发送成功！"), 200)
 }
 
 // 设置登录token到客户的cookie中

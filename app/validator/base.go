@@ -32,6 +32,8 @@ func NewValid(table any, params map[string]any) (err error) {
 		item = &Install{}
 	case "admin":
 		item = &Admin{}
+	case "email":
+		item = &Email{}
 	default:
 		return errors.New("未知的验证器！")
 	}
