@@ -17,8 +17,10 @@ type Users struct {
 	Nickname    string `gorm:"size:32; comment:昵称;" json:"nickname"`
 	Email       string `gorm:"size:128; comment:邮箱;" json:"email"`
 	Avatar      string `gorm:"comment:头像; default:Null;" json:"avatar"`
-	Description string `gorm:"comment:描述; default:Null;" json:"description"`
+	Description string `gorm:"comment:描述; default:Null;default:这个人很懒，什么也没有留下。;" json:"description"`
+	Gender      int    `gorm:"tinyint(1);comment:性别; c" json:"gender"`
 	Level       int    `gorm:"tinyint(1);comment:身份; default:0;" json:"level"`
+	Status      int    `gorm:"tinyint(1);comment:状态; default:1;" json:"status"`
 	Remark      string `gorm:"comment:备注; default:Null;" json:"remark"`
 	// 以下为公共字段
 	Json       any                   `gorm:"type:longtext; comment:用于存储JSON数据;" json:"json"`
@@ -42,16 +44,18 @@ func InitUsers() {
 
 func (this *Users) BeforeSave(tx *gorm.DB) (err error) {
 	// 账号 唯一处理
-	if !utils.Is.Empty(this.Account) {
-		exist := facade.DB.Model(&Users{}).Where("id", "!=", this.Id).Where("account", this.Account).Exist()
+	if tx.Statement.Changed("account") {
+		newAccount := cast.ToStringMap(tx.Statement.Dest)["account"]
+		exist := facade.DB.Model(&Users{}).Where("id", "!=", this.Id).Where("account", newAccount).Exist()
 		if exist {
 			return errors.New("账号已存在！")
 		}
 	}
 
 	// 邮箱 唯一处理
-	if !utils.Is.Empty(this.Email) {
-		exist := facade.DB.Model(&Users{}).Where("id", "!=", this.Id).Where("email", this.Email).Exist()
+	if tx.Statement.Changed("email") {
+		newEmail := cast.ToStringMap(tx.Statement.Dest)["email"]
+		exist := facade.DB.Model(&Users{}).Where("id", "!=", this.Id).Where("email", newEmail).Exist()
 		if exist {
 			return errors.New("邮箱已存在！")
 		}
