@@ -3,6 +3,7 @@ package middleware
 import (
 	"doauth/app/facade"
 	"doauth/app/model"
+
 	"github.com/gin-gonic/gin"
 	"github.com/spf13/cast"
 	"github.com/unti-io/go-utils/utils"
@@ -38,6 +39,15 @@ func Jwt() gin.HandlerFunc {
 		}
 
 		user := facade.DB.Model(&model.Users{}).Find(jwt.Data["uid"])
+
+		if cast.ToInt(user["status"]) != 1 {
+			result["msg"] = facade.Lang(ctx, "账号被封禁，请联系管理员！")
+			result["code"] = 401
+			ctx.SetCookie(tokenName, "", -1, "/", "", false, false)
+			ctx.JSON(200, result)
+			ctx.Abort()
+			return
+		}
 
 		// 密码发生变化 - 强制退出
 		if jwt.Data["hash"] != facade.Hash.Sum32(user["password"]) {

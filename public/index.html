@@ -7,11 +7,85 @@
     <title>DoAuth</title>
     <link rel="stylesheet" href="/assets/css/base.min.css" />
     <link rel="stylesheet" href="https://at.alicdn.com/t/c/font_3869829_flmqr0fgcgq.css" />
-    <script type="module" crossorigin src="/static/index-7fb70b78.js"></script>
-    <link rel="stylesheet" href="/static/index-5157c5e2.css">
+    <style>
+      #load-container {
+        background: #737374;
+        position: fixed;
+        inset: 0;
+        z-index: 99999999;
+      }
+
+      .loader-bounce {
+        width: 100px;
+        height: 250px;
+        margin: auto;
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+      }
+      .loader-bounce::before {
+        content: '';
+        width: 100px;
+        height: 5px;
+        background: #000;
+        opacity: 0.1;
+        position: absolute;
+        top: 59px;
+        left: 0;
+        border-radius: 50%;
+        animation: shadow 0.5s linear infinite;
+      }
+      .loader-bounce::after {
+        content: '';
+        width: 100px;
+        height: 100px;
+        background: #5a7dff;
+        animation: animate 0.5s linear infinite;
+        position: absolute;
+        top: 0;
+        left: 0;
+        border-radius: 3px;
+      }
+      @keyframes animate {
+        17% {
+          border-bottom-right-radius: 3px;
+        }
+        25% {
+          transform: translateY(9px) rotate(22.5deg);
+        }
+        50% {
+          transform: translateY(18px) scale(1, 0.9) rotate(45deg);
+          border-bottom-right-radius: 40px;
+        }
+        75% {
+          transform: translateY(9px) rotate(67.5deg);
+        }
+        100% {
+          transform: translateY(0) rotate(90deg);
+        }
+      }
+
+      @keyframes shadow {
+        0%,
+        100% {
+          transform: scale(1, 1);
+        }
+        50% {
+          transform: scale(1.2, 1);
+        }
+      }
+    </style>
+    <script type="module" crossorigin src="/static/index-a1081636.js"></script>
+    <link rel="stylesheet" href="/static/index-10b1a756.css">
   </head>
   <body>
-    <div id="app"></div>
+    <div id="load-container" class="trf flex-center disnone">
+      <div class="loader-bounce"></div>
+      <span class="mt-4">LOADING...</span>
+    </div>
+    <div id="app" class=""></div>
     
   </body>
 </html>

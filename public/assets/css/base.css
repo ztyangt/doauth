@@ -517,6 +517,12 @@
   cursor: pointer
 }
 
+.fullscreen {
+  position: fixed;
+  inset: 0;
+  z-index: 99;
+}
+
 .disib {
   display: inline-block;
 }
@@ -527,6 +533,10 @@
 
 .disnone {
   display: none;
+}
+
+.br {
+  border-radius: 5px;
 }
 
 .br-50 {
@@ -563,10 +573,6 @@
   -ms-transition: all .3s;
   transition: all .3s
 }
-
-
-
-
 
 
 
@@ -625,7 +631,8 @@
   opacity: 0;
 }
 
-.show {
+.show,
+.loaded {
   visibility: visible;
   opacity: 1;
 }

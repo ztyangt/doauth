@@ -259,6 +259,11 @@ func (this *Users) login(ctx *gin.Context) {
 		return
 	}
 
+	if !cast.ToBool(table.Status) {
+		this.json(ctx, nil, facade.Lang(ctx, "账号被封禁，请联系管理员！"), 400)
+		return
+	}
+
 	if utils.Is.Empty(table.Password) {
 		this.json(ctx, nil, facade.Lang(ctx, "该帐号未设置密码，请切换登录方式！"), 400)
 		return
