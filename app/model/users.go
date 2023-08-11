@@ -46,7 +46,7 @@ func (this *Users) BeforeSave(tx *gorm.DB) (err error) {
 	// 账号 唯一处理
 	if tx.Statement.Changed("account") {
 		newAccount := cast.ToStringMap(tx.Statement.Dest)["account"]
-		exist := facade.DB.Model(&Users{}).Where("id", "!=", this.Id).Where("account", newAccount).Exist()
+		exist := facade.DB.Model(&Users{}).WithTrashed().Where("id", "!=", this.Id).Where("account", newAccount).Exist()
 		if exist {
 			return errors.New("账号已存在！")
 		}
@@ -55,7 +55,7 @@ func (this *Users) BeforeSave(tx *gorm.DB) (err error) {
 	// 邮箱 唯一处理
 	if tx.Statement.Changed("email") {
 		newEmail := cast.ToStringMap(tx.Statement.Dest)["email"]
-		exist := facade.DB.Model(&Users{}).Where("id", "!=", this.Id).Where("email", newEmail).Exist()
+		exist := facade.DB.Model(&Users{}).WithTrashed().Where("id", "!=", this.Id).Where("email", newEmail).Exist()
 		if exist {
 			return errors.New("邮箱已存在！")
 		}

@@ -142,13 +142,12 @@ func (this base) hasToken(ctx *gin.Context) bool {
 // 接口权限校验 - 管理员权限
 func (this base) isAdmin(ctx *gin.Context) bool {
 	if this.hasToken(ctx) {
-		user, ok := ctx.Get("user")
-		if !ok {
+		user := this.meta.user(ctx)
+		if utils.Is.Empty(user) {
 			this.json(ctx, nil, facade.Lang(ctx, "禁止非法操作！"), 401)
 			return false
 		} else {
-			data := cast.ToStringMap(user)
-			if !cast.ToBool(data["level"]) {
+			if !cast.ToBool(user.Level) {
 				this.json(ctx, nil, facade.Lang(ctx, "无权限！"), 401)
 				return false
 			}
@@ -162,20 +161,19 @@ func (this base) isAdmin(ctx *gin.Context) bool {
 func (this base) isUser(ctx *gin.Context) bool {
 
 	if this.hasToken(ctx) {
-		user, ok := ctx.Get("user")
-		if !ok {
+		user := this.meta.user(ctx)
+		if utils.Is.Empty(user) {
 			this.json(ctx, nil, facade.Lang(ctx, "禁止非法操作！"), 401)
 			return false
 		} else {
-			data := cast.ToStringMap(user)
 			params := this.params(ctx)
 
 			// 是管理员
-			if cast.ToBool(data["level"]) {
+			if cast.ToBool(user.Level) {
 				return true
 			}
 
-			if cast.ToInt(data["id"]) != cast.ToInt(params["id"]) {
+			if cast.ToInt(user.Id) != cast.ToInt(params["id"]) {
 				this.json(ctx, nil, facade.Lang(ctx, "无权限！"), 401)
 				return false
 			}

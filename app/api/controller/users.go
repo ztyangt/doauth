@@ -6,14 +6,15 @@ import (
 	"doauth/app/validator"
 	"errors"
 	"fmt"
-	"github.com/gin-gonic/gin"
-	"github.com/spf13/cast"
-	"github.com/unti-io/go-utils/utils"
-	"gopkg.in/gomail.v2"
 	"math"
 	"regexp"
 	"strings"
 	"time"
+
+	"github.com/gin-gonic/gin"
+	"github.com/spf13/cast"
+	"github.com/unti-io/go-utils/utils"
+	"gopkg.in/gomail.v2"
 )
 
 type Users struct {
@@ -69,6 +70,7 @@ func (this *Users) IPUT(ctx *gin.Context) {
 	allow := map[string]any{
 		"update":  this.update,
 		"restore": this.restore,
+		"create":  this.create,
 	}
 	err := this.call(allow, method, ctx)
 
@@ -186,7 +188,7 @@ func (this *Users) all(ctx *gin.Context) {
 	limit := this.meta.limit(ctx)
 	var result []model.Users
 	mold := facade.DB.Model(&result)
-	mold.IWhere(params["where"]).IOr(params["or"]).ILike(params["like"]).INot(params["not"]).INull(params["null"]).INotNull(params["notNull"])
+	mold.IWhere(params["where"]).IOr(params["or"]).ILike(params["like"]).INot(params["not"]).INull(params["null"]).INotNull(params["notNull"]).WithTrashed(params["withTrashed"]).OnlyTrashed(params["onlyTrashed"])
 	count := mold.Where(table).Count()
 
 	mold.WithoutField("password")
@@ -317,7 +319,7 @@ func (this *Users) register(ctx *gin.Context) {
 	}
 
 	// 判断邮箱是否已经注册
-	ok := facade.DB.Model(&table).Where([]any{
+	ok := facade.DB.Model(&table).WithTrashed().Where([]any{
 		[]any{"email", "=", params["email"]},
 	}).Exist()
 	// 已注册
@@ -328,7 +330,7 @@ func (this *Users) register(ctx *gin.Context) {
 
 	if !utils.Is.Empty(params["account"]) {
 		// 判断账号是否已经注册
-		ok := facade.DB.Model(&table).Where([]any{
+		ok := facade.DB.Model(&table).WithTrashed().Where([]any{
 			[]any{"account", "=", params["account"]},
 		}).Exist()
 		if ok {
@@ -412,6 +414,79 @@ func (this *Users) register(ctx *gin.Context) {
 	this.json(ctx, result, facade.Lang(ctx, "注册成功！"), 200)
 }
 
+// 创建用户
+func (this *Users) create(ctx *gin.Context) {
+	if !this.isAdmin(ctx) {
+		return
+	}
+
+	// 表数据结构体
+	table := model.Users{}
+	// 请求参数
+	params := this.params(ctx)
+
+	// 验证器
+	err := validator.NewValid("users", params)
+
+	// 参数校验不通过
+	if err != nil {
+		this.json(ctx, nil, err.Error(), 400)
+		return
+	}
+
+	// 判断邮箱是否已经注册
+	ok := facade.DB.Model(&table).WithTrashed().Where([]any{
+		[]any{"email", "=", params["email"]},
+	}).Exist()
+	// 已注册
+	if ok {
+		this.json(ctx, nil, facade.Lang(ctx, "该邮箱已经注册！"), 400)
+		return
+	}
+
+	if !utils.Is.Empty(params["account"]) {
+		// 判断账号是否已经注册
+		ok := facade.DB.Model(&table).WithTrashed().Where([]any{
+			[]any{"account", "=", params["account"]},
+		}).Exist()
+		if ok {
+			this.json(ctx, nil, facade.Lang(ctx, "该帐号已经注册！"), 400)
+			return
+		}
+	}
+
+	if utils.Is.Empty(params["password"]) {
+		this.json(ctx, nil, facade.Lang(ctx, "%s 不能为空！", "密码"), 400)
+		return
+	}
+
+	// 允许存储的字段
+	allow := []any{"account", "password", "email", "nickname", "gender", "avatar", "description"}
+	// 动态给结构体赋值
+	for key, val := range params {
+		// 加密密码
+		if key == "password" {
+			val = utils.Password.Create(params["password"])
+		}
+		// 防止恶意传入字段
+		if utils.In.Array(key, allow) {
+			utils.Struct.Set(&table, key, val)
+		}
+	}
+
+	// 创建用户
+	tx := facade.DB.Model(&table).Create(&table)
+	if tx.Error != nil {
+		this.json(ctx, nil, tx.Error.Error(), 400)
+		return
+	}
+
+	// 删除密码
+	table.Password = ""
+
+	this.json(ctx, table, facade.Lang(ctx, "创建成功！"), 200)
+}
+
 // update 更新数据
 func (this *Users) update(ctx *gin.Context) {
 	if !this.isUser(ctx) {
@@ -428,7 +503,7 @@ func (this *Users) update(ctx *gin.Context) {
 
 	// 表数据结构体
 	table := model.Users{}
-	allow := []any{"id", "account", "password", "nickname", "email", "gender", "avatar", "status", "description", "remark", "json", "text"}
+	allow := []any{"id", "account", "password", "nickname", "email", "gender", "avatar", "status", "description", "remark"}
 	async := utils.Async[map[string]any]()
 
 	// 动态给结构体赋值

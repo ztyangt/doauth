@@ -325,7 +325,7 @@ func (this *Comm) logout(ctx *gin.Context) {
 	this.json(ctx, nil, facade.Lang(ctx, "退出成功！"), 200)
 }
 
-// 发送邮件
+// 发送邮件w
 func (this *Comm) sendEmail(ctx *gin.Context) {
 	if !this.isAdmin(ctx) {
 		return
