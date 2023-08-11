@@ -115,6 +115,9 @@ func (this *Users) delCache() {
 
 // one 获取指定数据
 func (this *Users) one(ctx *gin.Context) {
+	if !this.isUser(ctx) {
+		return
+	}
 
 	code := 204
 	msg := []string{"无数据！", ""}
@@ -154,7 +157,7 @@ func (this *Users) one(ctx *gin.Context) {
 
 // all 获取全部数据
 func (this *Users) all(ctx *gin.Context) {
-	if !this.admin(ctx) {
+	if !this.isAdmin(ctx) {
 		return
 	}
 	code := 204
@@ -411,9 +414,10 @@ func (this *Users) register(ctx *gin.Context) {
 
 // update 更新数据
 func (this *Users) update(ctx *gin.Context) {
-	if !this.auth(ctx) {
+	if !this.isUser(ctx) {
 		return
 	}
+
 	// 获取请求参数
 	params := this.params(ctx)
 
@@ -422,28 +426,9 @@ func (this *Users) update(ctx *gin.Context) {
 		return
 	}
 
-	// 验证器
-	err := validator.NewValid("users", params)
-
-	// 参数校验不通过
-	if err != nil {
-		this.json(ctx, nil, err.Error(), 400)
-		return
-	}
-
-	// 账号 唯一处理
-	//if !utils.Is.Empty(params["account"]) {
-	//	fmt.Println(params["account"])
-	//	exist := facade.DB.Model(&model.Users{}).Where("id", "!=", params["id"]).Where("account", params["account"]).Exist()
-	//	if exist {
-	//		this.json(ctx, nil, facade.Lang(ctx, "账号已存在！"), 400)
-	//		return
-	//	}
-	//}
-
 	// 表数据结构体
 	table := model.Users{}
-	allow := []any{"id", "account", "password", "nickname", "email", "gender", "avatar", "description", "json", "text"}
+	allow := []any{"id", "account", "password", "nickname", "email", "gender", "avatar", "status", "description", "remark", "json", "text"}
 	async := utils.Async[map[string]any]()
 
 	// 动态给结构体赋值
@@ -478,7 +463,9 @@ func (this *Users) update(ctx *gin.Context) {
 
 // count 统计数据
 func (this *Users) count(ctx *gin.Context) {
-
+	if !this.isAdmin(ctx) {
+		return
+	}
 	// 表数据结构体
 	table := model.Users{}
 	// 获取请求参数
@@ -492,7 +479,9 @@ func (this *Users) count(ctx *gin.Context) {
 
 // column 获取单列数据
 func (this *Users) column(ctx *gin.Context) {
-
+	if !this.isAdmin(ctx) {
+		return
+	}
 	// 表数据结构体
 	table := model.Users{}
 	// 获取请求参数
@@ -529,7 +518,9 @@ func (this *Users) column(ctx *gin.Context) {
 
 // remove 软删除
 func (this *Users) remove(ctx *gin.Context) {
-
+	if !this.isAdmin(ctx) {
+		return
+	}
 	// 表数据结构体
 	table := model.Users{}
 	// 获取请求参数
@@ -572,7 +563,9 @@ func (this *Users) remove(ctx *gin.Context) {
 
 // delete 真实删除
 func (this *Users) delete(ctx *gin.Context) {
-
+	if !this.isAdmin(ctx) {
+		return
+	}
 	// 表数据结构体
 	table := model.Users{}
 	// 获取请求参数
@@ -615,7 +608,9 @@ func (this *Users) delete(ctx *gin.Context) {
 
 // clear 清空回收站
 func (this *Users) clear(ctx *gin.Context) {
-
+	if !this.isAdmin(ctx) {
+		return
+	}
 	// 表数据结构体
 	table := model.Users{}
 
@@ -642,7 +637,9 @@ func (this *Users) clear(ctx *gin.Context) {
 
 // restore 恢复数据
 func (this *Users) restore(ctx *gin.Context) {
-
+	if !this.isAdmin(ctx) {
+		return
+	}
 	// 表数据结构体
 	table := model.Users{}
 	// 获取请求参数

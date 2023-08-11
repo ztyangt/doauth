@@ -327,10 +327,7 @@ func (this *Comm) logout(ctx *gin.Context) {
 
 // 发送邮件
 func (this *Comm) sendEmail(ctx *gin.Context) {
-	if !this.admin(ctx) {
-		return
-	}
-	if !this.auth(ctx) {
+	if !this.isAdmin(ctx) {
 		return
 	}
 

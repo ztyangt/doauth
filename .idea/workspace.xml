@@ -6,42 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="0fc1e874-fc7c-47e4-9217-eddcac8ca1c2" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/bfba127f-c8e7-4259-ad31-0d01c70b2d4b.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/bfba127f-c8e7-4259-ad31-0d01c70b2d4b/storage_v2/_src_/schema/doauth.s6zusA.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/bfba127f-c8e7-4259-ad31-0d01c70b2d4b/storage_v2/_src_/schema/information_schema.FNRwLQ.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/d230c68c-46f4-46e6-8dfc-d7811bd3e1f2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/d230c68c-46f4-46e6-8dfc-d7811bd3e1f2.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/d230c68c-46f4-46e6-8dfc-d7811bd3e1f2/storage_v2/_src_/schema/domain.xNTzsA.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/d230c68c-46f4-46e6-8dfc-d7811bd3e1f2/storage_v2/_src_/schema/domain.xNTzsA.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/api/controller/base.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/controller/base.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/api/controller/comm.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/controller/comm.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/api/controller/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/controller/config.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/api/controller/users.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/controller/users.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/api/route/app.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/route/app.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/model/users.go" beforeDir="false" afterPath="$PROJECT_DIR$/app/model/users.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/static/403-a93ebc35.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/static/404-02a9bc90.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/static/LottieItem-eaa00281.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/static/add-6bcdf7e2.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/static/add-804a8ee3.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/static/card-68b7cbe3.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/static/common-08e4a7b5.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/static/form-item-e488bd26.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/static/index-0437b404.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/static/index-1cb1cf23.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/static/index-4085d538.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/static/index-5aee2944.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/static/index-89f8610b.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/static/index-989c0865.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/static/index-d5a767a0.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/static/index-dc74cf19.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/static/index-e5bd872d.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/static/list-0ee31394.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/static/list-8f0b44b0.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/static/site-365542b1.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/static/site-e38d7908.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/static/tag-0b32c03c.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/static/type-de58a2ac.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/static/user-86d2983a.js" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
